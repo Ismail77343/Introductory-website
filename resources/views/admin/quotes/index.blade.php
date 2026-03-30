@@ -1,10 +1,10 @@
-@extends('layouts.admin', ['title' => 'طلبات التسعير'])
+@extends('layouts.admin', ['title' => __('admin.quotes_title')])
 
 @section('content')
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div class="mb-8">
-            <h1 class="text-4xl font-black text-white">طلبات التسعير</h1>
-            <p class="mt-2 text-slate-300">هذه الطلبات محفوظة في قاعدة البيانات ولا تظهر إلا بعد تسجيل الدخول.</p>
+            <h1 class="text-4xl font-black text-white">{{ __('admin.quotes_title') }}</h1>
+            <p class="mt-2 text-slate-300">{{ __('admin.quotes_intro') }}</p>
         </div>
 
         <div class="space-y-5">
@@ -21,9 +21,9 @@
                         <table class="min-w-full text-right text-sm">
                             <thead class="bg-white/5 text-slate-300">
                                 <tr>
-                                    <th class="px-4 py-3">المنتج</th>
-                                    <th class="px-4 py-3">الكمية</th>
-                                    <th class="px-4 py-3">الوحدة</th>
+                                    <th class="px-4 py-3">{{ __('admin.product') }}</th>
+                                    <th class="px-4 py-3">{{ __('admin.quantity') }}</th>
+                                    <th class="px-4 py-3">{{ __('admin.unit') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

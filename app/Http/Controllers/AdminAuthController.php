@@ -25,7 +25,7 @@ class AdminAuthController extends Controller
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->withErrors([
-                'email' => 'بيانات الدخول غير صحيحة.',
+                'email' => __('admin.invalid_credentials'),
             ])->onlyInput('email');
         }
 

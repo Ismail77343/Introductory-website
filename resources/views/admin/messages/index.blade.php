@@ -1,10 +1,10 @@
-@extends('layouts.admin', ['title' => 'رسائل التواصل'])
+@extends('layouts.admin', ['title' => __('admin.messages_title')])
 
 @section('content')
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div class="mb-8">
-            <h1 class="text-4xl font-black text-white">رسائل التواصل</h1>
-            <p class="mt-2 text-slate-300">كل الرسائل الواردة من نموذج التواصل.</p>
+            <h1 class="text-4xl font-black text-white">{{ __('admin.messages_title') }}</h1>
+            <p class="mt-2 text-slate-300">{{ __('admin.messages_intro') }}</p>
         </div>
 
         <div class="space-y-5">
