@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @php
+        $adminFavicon = $siteSettings?->logo_path ? asset($siteSettings->logo_path) : ($siteSettings?->logo_url ?: null);
+    @endphp
     <title>{{ $title ?? __('admin.dashboard') }}</title>
+    @if ($adminFavicon)
+        <link rel="icon" type="image/png" href="{{ $adminFavicon }}">
+        <link rel="shortcut icon" href="{{ $adminFavicon }}">
+        <link rel="apple-touch-icon" href="{{ $adminFavicon }}">
+    @endif
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

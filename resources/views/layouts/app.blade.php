@@ -12,6 +12,11 @@
     <title>{{ $pageMetaTitle }}</title>
     <meta name="description" content="{{ $pageMetaDescription }}">
     <meta name="keywords" content="{{ $pageMetaKeywords }}">
+    @if ($publicLogo)
+        <link rel="icon" type="image/png" href="{{ $publicLogo }}">
+        <link rel="shortcut icon" href="{{ $publicLogo }}">
+        <link rel="apple-touch-icon" href="{{ $publicLogo }}">
+    @endif
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
