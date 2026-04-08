@@ -273,7 +273,7 @@ class DatabaseSeeder extends Seeder
         $aboutHeroSection->items()->create([
             'title' => 'من نحن',
             'subtitle' => 'قصة الشركة وخبرتها',
-            'description' => 'تأسست الشركة بهدف توفير حلول لاصقة عالية الجودة لقطاعات البناء والبنية التحتية والتطبيقات الصناعية، مع التزام واضح بالجودة والاعتمادية والدعم الفني.',
+            'description' => 'تأسست الشركة لتقديم خدمات سباكة وكهرباء وصيانة فنية عالية الجودة للمباني السكنية والتجارية، مع التزام واضح بالاعتمادية وسرعة الاستجابة والدعم الفني.',
             'button_text' => 'تواصل معنا',
             'button_url' => '/contact',
             'image_url' => 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80',
@@ -285,7 +285,7 @@ class DatabaseSeeder extends Seeder
             'page' => 'about',
             'key' => 'about-certificates',
             'title' => 'شهادات الجودة والامتثال',
-            'subtitle' => 'منتجاتنا معتمدة وفق معايير الجودة والاعتمادية لدعم المشاريع الصناعية والتجارية.',
+            'subtitle' => 'خدماتنا تنفذ وفق معايير جودة واعتمادية عالية لدعم المشاريع السكنية والتجارية.',
             'variant' => 'cards',
             'anchor' => 'certificates',
             'is_active' => true,
@@ -310,7 +310,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $aboutTeamSection->items()->createMany([
-            ['title' => 'أحمد الدبعي', 'subtitle' => 'المدير العام', 'description' => 'خبرة طويلة في تطوير الحلول الكيميائية وقيادة المبادرات الصناعية.', 'icon' => '👤', 'sort_order' => 1, 'is_active' => true],
+            ['title' => 'أحمد الدبعي', 'subtitle' => 'المدير العام', 'description' => 'خبرة طويلة في إدارة الخدمات الفنية وقيادة فرق التنفيذ الميداني للمشاريع السكنية والتجارية.', 'icon' => '👤', 'sort_order' => 1, 'is_active' => true],
             ['title' => 'إدارة الجودة', 'subtitle' => 'المدير التقني', 'description' => 'متابعة المواصفات والاختبارات وضمان مطابقة المعايير الفنية.', 'icon' => '🧪', 'sort_order' => 2, 'is_active' => true],
             ['title' => 'تطوير الأعمال', 'subtitle' => 'العلاقات والمبيعات', 'description' => 'ربط الاحتياج الفني بالسوق والمشاريع وتسريع الاستجابة للعملاء.', 'icon' => '🤝', 'sort_order' => 3, 'is_active' => true],
         ]);
@@ -445,54 +445,54 @@ class DatabaseSeeder extends Seeder
         ]);
         SiteSetting::query()->whereKey(1)->update([
             'site_name_translations' => ['ar' => 'شركة نفوذ المستقبل', 'en' => 'Nofouth Future Company'],
-            'site_tagline_translations' => ['ar' => 'حلول لواصق CPVC و PVC الصناعية', 'en' => 'Industrial CPVC and PVC adhesive solutions'],
+            'site_tagline_translations' => ['ar' => 'خدمات السباكة والكهرباء والصيانة الفنية', 'en' => 'Professional plumbing, electrical, and maintenance services'],
             'contact_address_translations' => ['ar' => 'الرياض - المملكة العربية السعودية', 'en' => 'Riyadh - Saudi Arabia'],
-            'vision_translations' => ['ar' => 'أن نكون الخيار الأول في حلول اللواصق الصناعية وإدارة المحتوى الفني للقطاع.', 'en' => 'To become the first choice in industrial adhesive solutions and technical content management.'],
-            'mission_translations' => ['ar' => 'تقديم منتجات موثوقة ومنصة رقمية ديناميكية تساعد العملاء على الوصول السريع للمعلومات وطلبات التسعير.', 'en' => 'To provide reliable products and a dynamic digital platform that helps clients access information and quote requests quickly.'],
-            'about_text_translations' => ['ar' => 'نحن شركة متخصصة في حلول اللواصق الصناعية وتم تحويل هذا الموقع إلى منصة Laravel ديناميكية كاملة.', 'en' => 'We are a company specialized in industrial adhesive solutions, and this website has been transformed into a fully dynamic Laravel platform.'],
+            'vision_translations' => ['ar' => 'أن نكون الخيار الأول في خدمات السباكة والكهرباء والصيانة الفنية للمشاريع السكنية والتجارية.', 'en' => 'To become the first choice for plumbing, electrical, and maintenance services for residential and commercial projects.'],
+            'mission_translations' => ['ar' => 'تقديم خدمات فنية موثوقة وسريعة تركز على السلامة والجودة والالتزام، مع تجربة تواصل واضحة واحترافية لعملائنا.', 'en' => 'To deliver reliable and responsive technical services built on safety, quality, and professional client communication.'],
+            'about_text_translations' => ['ar' => 'شركة نفوذ المستقبل متخصصة في خدمات السباكة والأعمال الكهربائية والصيانة العامة، ونوفر حلولاً عملية تناسب احتياجات المنازل والمنشآت التجارية.', 'en' => 'Nofouth Future Company specializes in plumbing, electrical, and general maintenance services for homes and commercial facilities.'],
             'footer_text_translations' => ['ar' => 'جميع الحقوق محفوظة - شركة نفوذ المستقبل', 'en' => 'All rights reserved - Nofouth Future Company'],
             'default_meta_title_translations' => ['ar' => 'شركة نفوذ المستقبل', 'en' => 'Nofouth Future Company'],
-            'default_meta_description_translations' => ['ar' => 'موقع ديناميكي لمنتجات اللواصق الصناعية والمقالات وطلبات التسعير.', 'en' => 'A dynamic website for industrial adhesives, articles, and quote requests.'],
-            'default_meta_keywords_translations' => ['ar' => 'CPVC, PVC, لواصق صناعية, مقالات فنية, طلب تسعيرة', 'en' => 'CPVC, PVC, industrial adhesives, technical articles, quote request'],
+            'default_meta_description_translations' => ['ar' => 'شركة نفوذ المستقبل لخدمات السباكة والكهرباء والصيانة الفنية للمنازل والمنشآت التجارية.', 'en' => 'Nofouth Future Company for plumbing, electrical, and maintenance services for homes and commercial facilities.'],
+            'default_meta_keywords_translations' => ['ar' => 'سباكة, كهرباء, صيانة, خدمات فنية, كشف أعطال, طلب تسعيرة', 'en' => 'plumbing, electrical services, maintenance, technical services, fault detection, quote request'],
         ]);
 
         HomeSection::query()->where('key', 'hero')->update([
-            'title_translations' => ['ar' => 'حلول CPVC الرائدة. قوة شركة نفوذ المستقبل', 'en' => 'Leading CPVC Solutions. Powered by Nofouth Future'],
-            'subtitle_translations' => ['ar' => 'نحوّل الموقع الثابت إلى منصة أعمال ديناميكية تعرض المنتجات والمقالات وآراء العملاء وطلبات التسعير.', 'en' => 'We turn a static website into a dynamic business platform for products, articles, testimonials, and quote requests.'],
+            'title_translations' => ['ar' => 'خدمات سباكة وكهرباء وصيانة باحترافية عالية', 'en' => 'Professional Plumbing, Electrical, and Maintenance Services'],
+            'subtitle_translations' => ['ar' => 'شركة نفوذ المستقبل تقدم حلولاً فنية موثوقة للمنازل والمنشآت التجارية مع سرعة استجابة وجودة تنفيذ.', 'en' => 'Nofouth Future Company delivers trusted technical solutions for homes and commercial facilities with responsive service and high-quality execution.'],
         ]);
 
         HomeSection::query()->where('page', 'about')->where('key', 'about-hero')->update([
             'title_translations' => ['ar' => 'رسالتنا ورؤيتنا', 'en' => 'Our Mission and Vision'],
-            'subtitle_translations' => ['ar' => 'نقدم حلولاً صناعية موثوقة مدعومة بخبرة فنية ومحتوى ديناميكي.', 'en' => 'We provide trusted industrial solutions backed by technical expertise and dynamic content.'],
+            'subtitle_translations' => ['ar' => 'نقدّم خدمات فنية موثوقة في السباكة والكهرباء والصيانة العامة بخبرة عملية وفريق مؤهل.', 'en' => 'We provide trusted plumbing, electrical, and general maintenance services backed by practical expertise and a qualified team.'],
         ]);
 
         Product::query()->where('sku', '714')->update([
-            'name_translations' => ['ar' => 'فلو عرايب 714', 'en' => 'FLOW ARAIB 714'],
-            'category_translations' => ['ar' => 'سي بي في سي', 'en' => 'CPVC'],
-            'tagline_translations' => ['ar' => 'لاصق CPVC شديد السماكة', 'en' => 'Heavy bodied CPVC cement'],
+            'name_translations' => ['ar' => 'خدمة تركيب السباكة', 'en' => 'Plumbing Installation'],
+            'category_translations' => ['ar' => 'السباكة', 'en' => 'Plumbing'],
+            'tagline_translations' => ['ar' => 'خدمات تركيب سباكة احترافية للمشاريع السكنية والتجارية', 'en' => 'Professional plumbing installation for residential and commercial projects'],
         ]);
 
         Product::query()->where('sku', '500')->update([
-            'name_translations' => ['ar' => 'فلو عرايب 500', 'en' => 'FLOW ARAIB 500'],
-            'category_translations' => ['ar' => 'بي في سي', 'en' => 'PVC'],
-            'tagline_translations' => ['ar' => 'لاصق PVC متوسط السماكة', 'en' => 'Medium bodied PVC cement'],
+            'name_translations' => ['ar' => 'خدمة التركيبات الكهربائية', 'en' => 'Electrical Installation'],
+            'category_translations' => ['ar' => 'الكهرباء', 'en' => 'Electrical'],
+            'tagline_translations' => ['ar' => 'تنفيذ الأعمال الكهربائية بأعلى معايير السلامة', 'en' => 'Electrical installation delivered to high safety standards'],
         ]);
-        Article::query()->where('slug', 'cpvc-adhesive-selection-guide')->update([
-            'title_translations' => ['ar' => 'دليل اختيار لاصق CPVC المناسب للمشاريع الحرارية', 'en' => 'Guide to Choosing the Right CPVC Cement for Hot Water Projects'],
-            'excerpt_translations' => ['ar' => 'مقال يشرح كيف تختار التركيبة المناسبة حسب الحرارة والضغط والقطر.', 'en' => 'An article explaining how to choose the right formula based on temperature, pressure, and diameter.'],
+        Article::query()->where('slug', 'professional-plumbing-service-guide')->update([
+            'title_translations' => ['ar' => 'متى تحتاج إلى فني سباكة محترف؟', 'en' => 'When Do You Need a Professional Plumber?'],
+            'excerpt_translations' => ['ar' => 'دليل عملي يساعدك على معرفة الحالات التي تتطلب تدخلاً فنيًا سريعًا في أعمال السباكة.', 'en' => 'A practical guide to recognizing when a plumbing issue requires professional help.'],
         ]);
 
-        Article::query()->where('slug', 'pipe-surface-preparation-best-practices')->update([
-            'title_translations' => ['ar' => 'أفضل ممارسات تجهيز الأنابيب قبل اللصق', 'en' => 'Best Practices for Pipe Surface Preparation Before Bonding'],
-            'excerpt_translations' => ['ar' => 'خطوات عملية لتجهيز السطح وضمان قوة الترابط ورفع كفاءة التركيب.', 'en' => 'Practical steps for preparing the surface and ensuring stronger bonding performance.'],
+        Article::query()->where('slug', 'electrical-safety-best-practices')->update([
+            'title_translations' => ['ar' => 'أساسيات السلامة في الأعمال الكهربائية المنزلية', 'en' => 'Essential Safety Practices for Home Electrical Work'],
+            'excerpt_translations' => ['ar' => 'خطوات مهمة لرفع مستوى الأمان أثناء تنفيذ أو صيانة الأعمال الكهربائية في المنزل أو المنشأة.', 'en' => 'Important steps to improve safety during electrical installation or maintenance work.'],
         ]);
 
         Testimonial::query()->where('sort_order', 1)->update([
-            'quote_translations' => ['ar' => 'اعتمادنا على FLOW 714 في مشروعنا الأخير أثبت كفاءة عالية في تحمل الضغوط التشغيلية، وكانت جودة الترابط ممتازة.', 'en' => 'Using FLOW 714 in our recent project proved highly reliable under operating pressure, with excellent bonding quality.'],
+            'quote_translations' => ['ar' => 'الفريق كان منظمًا وسريع الاستجابة، وتم تنفيذ أعمال السباكة في المشروع بجودة عالية ومتابعة احترافية.', 'en' => 'The team was organized and responsive, and the plumbing work was completed with excellent quality and professional follow-up.'],
         ]);
 
         Testimonial::query()->where('sort_order', 2)->update([
-            'quote_translations' => ['ar' => 'سهولة التطبيق وسرعة التماسك في FLOW 500 ساعدتنا على تقليل وقت التركيب ورفع كفاءة التنفيذ.', 'en' => 'The easy application and quick setting time of FLOW 500 helped us reduce installation time and improve execution efficiency.'],
+            'quote_translations' => ['ar' => 'خدمة الصيانة الكهربائية كانت دقيقة واحترافية، وتمت معالجة الأعطال بسرعة مع التزام واضح بالسلامة.', 'en' => 'The electrical maintenance service was precise and professional, and faults were handled quickly with clear attention to safety.'],
         ]);
     }
 }
