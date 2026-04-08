@@ -17,7 +17,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; }
+        :root {
+            --brand-light: #81b9dd;
+            --brand-deep: #2756a3;
+            --admin-bg: #071426;
+            --admin-surface: rgba(11, 28, 56, .84);
+            --admin-surface-soft: rgba(19, 42, 79, .72);
+            --admin-line: rgba(129, 185, 221, .18);
+            --admin-text: #eef5fb;
+            --admin-muted: #aac5dc;
+            --admin-shadow: rgba(39, 86, 163, .22);
+        }
+        body { font-family: 'Cairo', sans-serif; background: linear-gradient(180deg, #071426, #0e2344 55%, #122d5c); color: var(--admin-text); }
+        body, aside, header, main, a, button, input, textarea, select, div, span { transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease; }
+        [class*="shadow-amber-"] { --tw-shadow-color: var(--admin-shadow) !important; }
+        [class~="text-amber-300"] { color: #aed5ea !important; }
+        [class~="bg-amber-400"] { background-color: var(--brand-deep) !important; color: #f8fbff !important; }
+        [class~="bg-amber-400"]:hover { background-color: #1f4686 !important; }
+        [class~="text-slate-950"] { color: #f8fbff !important; }
+        [class~="border-white/10"] { border-color: var(--admin-line) !important; }
+        [class~="bg-white/5"] { background-color: rgba(129, 185, 221, .08) !important; }
+        [class~="bg-slate-950"] { background-color: rgba(7, 20, 38, .92) !important; }
+        [class~="bg-slate-950/40"] { background-color: rgba(7, 20, 38, .44) !important; }
+        [class~="bg-slate-950/60"] { background-color: rgba(7, 20, 38, .64) !important; }
+        [class~="bg-slate-950/70"] { background-color: rgba(7, 20, 38, .76) !important; }
+        [class~="bg-slate-900"] { background-color: var(--admin-surface) !important; }
+        [class~="bg-slate-900/70"] { background-color: var(--admin-surface-soft) !important; }
+        [class~="text-white"] { color: var(--admin-text) !important; }
+        [class~="text-slate-300"] { color: var(--admin-muted) !important; }
+        [class~="text-slate-400"] { color: #81aac9 !important; }
+        [class~="text-slate-500"] { color: #6f95b5 !important; }
+        [class~="hover:text-white"]:hover { color: #f8fbff !important; }
+        [class~="hover:bg-white/5"]:hover { background-color: rgba(129, 185, 221, .14) !important; }
+        [class~="shadow-black/10"], [class~="shadow-black/20"] { --tw-shadow-color: rgba(4, 14, 30, .24) !important; }
     </style>
 </head>
 <body class="bg-slate-950 text-white">
@@ -47,7 +79,7 @@
                         <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-400 text-slate-950 font-black">NF</div>
                     @endif
                     <div>
-                        <p class="text-xl font-black text-amber-300">{{ $siteSettings?->translate('site_name') ?? 'Nofouth Future' }}</p>
+                        <p class="text-xl font-black text-amber-300">{{ $siteSettings?->translate('site_name') ?? 'Nofouth Future Company' }}</p>
                         <p class="text-sm text-slate-400">{{ __('admin.site_control_panel') }}</p>
                     </div>
                 </a>

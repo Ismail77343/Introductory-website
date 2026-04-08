@@ -24,7 +24,7 @@ class AdminProductController extends Controller
         return view('admin.products.form', [
             'product' => new Product([
                 'accent_color' => 'orange',
-                'category' => 'CPVC',
+                'category' => 'Plumbing',
                 'is_active' => true,
                 'is_featured' => false,
             ]),
