@@ -51,7 +51,6 @@
             ['label' => __('ui.articles'), 'route' => 'articles.index'],
             ['label' => __('ui.quote_request'), 'route' => 'quotes.create'],
             ['label' => __('ui.contact'), 'route' => 'contact.index'],
-            ['label' => auth()->check() ? __('ui.dashboard') : __('ui.admin_login'), 'route' => auth()->check() ? 'admin.dashboard' : 'admin.login'],
         ];
     @endphp
 

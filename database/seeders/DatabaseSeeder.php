@@ -18,13 +18,19 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::query()->updateOrCreate(
+        $this->call(RolesPermissionsSeeder::class);
+        $superAdminRole = \App\Models\Role::query()->where('slug', 'super-admin')->firstOrFail();
+
+        $admin = User::query()->updateOrCreate(
             ['email' => 'admin@nofouth.local'],
             [
                 'name' => 'Administrator',
+                'job_title' => 'System Administrator',
+                'is_active' => true,
                 'password' => Hash::make('admin12345'),
             ]
         );
+        $admin->roles()->syncWithoutDetaching([$superAdminRole->id]);
 
         Language::query()->updateOrCreate(
             ['code' => 'ar'],

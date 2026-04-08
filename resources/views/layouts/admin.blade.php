@@ -33,17 +33,20 @@
 <body class="bg-slate-950 text-white">
     @php
         $adminLogo = $siteSettings?->logo_path ? asset($siteSettings->logo_path) : ($siteSettings?->logo_url ?: null);
+        $adminUser = auth()->user();
         $adminLinks = [
-            ['label' => __('admin.nav_home'), 'route' => 'admin.dashboard'],
-            ['label' => __('admin.nav_settings'), 'route' => 'admin.settings.edit'],
-            ['label' => __('admin.nav_products'), 'route' => 'admin.products.index'],
-            ['label' => __('admin.nav_home_sections'), 'route' => 'admin.home-sections.index'],
-            ['label' => __('admin.nav_about_sections'), 'route' => 'admin.about-sections.index'],
-            ['label' => __('admin.nav_articles'), 'route' => 'admin.articles.index'],
-            ['label' => __('admin.nav_testimonials'), 'route' => 'admin.testimonials.index'],
-            ['label' => __('admin.nav_languages'), 'route' => 'admin.languages.index'],
-            ['label' => __('admin.nav_quotes'), 'route' => 'admin.quotes.index'],
-            ['label' => __('admin.nav_messages'), 'route' => 'admin.messages.index'],
+            ['label' => __('admin.nav_home'), 'route' => 'admin.dashboard', 'permission' => 'dashboard.view'],
+            ['label' => __('admin.nav_settings'), 'route' => 'admin.settings.edit', 'permission' => 'settings.manage'],
+            ['label' => __('admin.nav_products'), 'route' => 'admin.products.index', 'permission' => 'products.manage'],
+            ['label' => __('admin.nav_home_sections'), 'route' => 'admin.home-sections.index', 'permission' => 'home_sections.manage'],
+            ['label' => __('admin.nav_about_sections'), 'route' => 'admin.about-sections.index', 'permission' => 'about_sections.manage'],
+            ['label' => __('admin.nav_articles'), 'route' => 'admin.articles.index', 'permission' => 'articles.manage'],
+            ['label' => __('admin.nav_testimonials'), 'route' => 'admin.testimonials.index', 'permission' => 'testimonials.manage'],
+            ['label' => __('admin.nav_languages'), 'route' => 'admin.languages.index', 'permission' => 'languages.manage'],
+            ['label' => __('admin.nav_quotes'), 'route' => 'admin.quotes.index', 'permission' => 'quotes.view'],
+            ['label' => __('admin.nav_messages'), 'route' => 'admin.messages.index', 'permission' => 'messages.view'],
+            ['label' => __('admin.nav_roles'), 'route' => 'admin.roles.index', 'permission' => 'roles.manage'],
+            ['label' => __('admin.nav_users'), 'route' => 'admin.users.index', 'permission' => 'users.manage'],
         ];
     @endphp
 
@@ -67,6 +70,7 @@
                 <p class="mb-3 px-4 text-xs font-bold tracking-[0.3em] text-slate-500">{{ __('admin.admin_section') }}</p>
                 <nav class="space-y-2">
                     @foreach ($adminLinks as $link)
+                        @continue(! $adminUser || ! $adminUser->hasPermission($link['permission']))
                         <a href="{{ route($link['route']) }}" class="flex items-center justify-between rounded-2xl px-4 py-3 font-bold transition {{ request()->routeIs($link['route']) ? 'bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/20' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                             <span>{{ $link['label'] }}</span>
                             <span class="text-xs opacity-70">›</span>
@@ -75,7 +79,16 @@
                 </nav>
             </div>
 
-            <div class="mt-auto border-t border-white/10 p-4">
+            <div class="mt-auto space-y-4 border-t border-white/10 p-4">
+                @if ($adminUser)
+                    <a href="{{ route('admin.profile.edit') }}" class="flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">
+                        <div>
+                            <p class="font-bold text-white">{{ $adminUser->name }}</p>
+                            <p class="text-sm text-slate-400">{{ $adminUser->job_title ?: __('admin.nav_profile') }}</p>
+                        </div>
+                        <span class="text-xs opacity-70">&rsaquo;</span>
+                    </a>
+                @endif
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button class="w-full rounded-2xl border border-white/10 px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">{{ __('admin.logout') }}</button>
@@ -90,7 +103,10 @@
                         <p class="text-sm text-slate-400">{{ __('admin.dashboard_intro') }}</p>
                         <h1 class="text-2xl font-black text-white">{{ $title ?? __('admin.dashboard') }}</h1>
                     </div>
-                    <a href="{{ route('home') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.view_site') }}</a>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <a href="{{ route('admin.profile.edit') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.nav_profile') }}</a>
+                        <a href="{{ route('home') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.view_site') }}</a>
+                    </div>
                 </div>
             </header>
 
@@ -106,6 +122,18 @@
                     <div>
                         <p class="text-sm font-black text-emerald-300">{{ __('admin.toast_success_title') }}</p>
                         <p class="mt-1 text-sm text-slate-100">{{ session('success') }}</p>
+                    </div>
+                    <button type="button" class="rounded-full border border-white/10 px-3 py-1 text-xs font-bold text-slate-300" data-close-toast>{{ __('admin.close') }}</button>
+                </div>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="admin-toast-enter pointer-events-auto rounded-[1.5rem] border border-amber-500/30 bg-slate-900/95 p-4 shadow-2xl shadow-amber-900/20 backdrop-blur" data-admin-toast data-toast-persist>
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-black text-amber-300">{{ __('admin.toast_error_title') }}</p>
+                        <p class="mt-1 text-sm text-slate-100">{{ session('error') }}</p>
                     </div>
                     <button type="button" class="rounded-full border border-white/10 px-3 py-1 text-xs font-bold text-slate-300" data-close-toast>{{ __('admin.close') }}</button>
                 </div>

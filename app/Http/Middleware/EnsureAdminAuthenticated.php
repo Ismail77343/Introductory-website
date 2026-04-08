@@ -14,6 +14,14 @@ class EnsureAdminAuthenticated
             return redirect()->route('admin.login');
         }
 
+        if (! auth()->user()->is_active) {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('admin.login')->with('error', __('admin.account_inactive'));
+        }
+
         return $next($request);
     }
 }

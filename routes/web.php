@@ -7,10 +7,13 @@ use App\Http\Controllers\AdminAboutSectionController;
 use App\Http\Controllers\AdminHomeSectionController;
 use App\Http\Controllers\AdminLanguageController;
 use App\Http\Controllers\AdminMessageController;
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminQuoteController;
+use App\Http\Controllers\AdminRoleController;
 use App\Http\Controllers\AdminTestimonialController;
 use App\Http\Controllers\AdminSiteSettingController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
@@ -40,17 +43,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.store');
 
     Route::middleware('admin.auth')->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
-    Route::resource('products', AdminProductController::class)->except(['show']);
-    Route::resource('home-sections', AdminHomeSectionController::class)->except(['show']);
-    Route::resource('about-sections', AdminAboutSectionController::class)->except(['show'])->parameters(['about-sections' => 'aboutSection']);
-    Route::resource('articles', AdminArticleController::class)->except(['show']);
-    Route::resource('testimonials', AdminTestimonialController::class)->except(['show']);
-    Route::resource('languages', AdminLanguageController::class)->except(['show']);
-    Route::get('quotes', [AdminQuoteController::class, 'index'])->name('quotes.index');
-    Route::get('messages', [AdminMessageController::class, 'index'])->name('messages.index');
-    Route::get('settings', [AdminSiteSettingController::class, 'edit'])->name('settings.edit');
-    Route::put('settings', [AdminSiteSettingController::class, 'update'])->name('settings.update');
+        Route::get('/', [AdminController::class, 'dashboard'])->middleware('admin.permission:dashboard.view')->name('dashboard');
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+        Route::get('/profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [AdminProfileController::class, 'update'])->name('profile.update');
+        Route::put('/profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.password');
+
+        Route::resource('products', AdminProductController::class)->except(['show'])->middleware('admin.permission:products.manage');
+        Route::resource('home-sections', AdminHomeSectionController::class)->except(['show'])->middleware('admin.permission:home_sections.manage');
+        Route::resource('about-sections', AdminAboutSectionController::class)->except(['show'])->parameters(['about-sections' => 'aboutSection'])->middleware('admin.permission:about_sections.manage');
+        Route::resource('articles', AdminArticleController::class)->except(['show'])->middleware('admin.permission:articles.manage');
+        Route::resource('testimonials', AdminTestimonialController::class)->except(['show'])->middleware('admin.permission:testimonials.manage');
+        Route::resource('languages', AdminLanguageController::class)->except(['show'])->middleware('admin.permission:languages.manage');
+        Route::resource('roles', AdminRoleController::class)->except(['show'])->middleware('admin.permission:roles.manage');
+        Route::resource('users', AdminUserController::class)->except(['show'])->middleware('admin.permission:users.manage');
+        Route::get('quotes', [AdminQuoteController::class, 'index'])->middleware('admin.permission:quotes.view')->name('quotes.index');
+        Route::get('messages', [AdminMessageController::class, 'index'])->middleware('admin.permission:messages.view')->name('messages.index');
+        Route::get('settings', [AdminSiteSettingController::class, 'edit'])->middleware('admin.permission:settings.manage')->name('settings.edit');
+        Route::put('settings', [AdminSiteSettingController::class, 'update'])->middleware('admin.permission:settings.manage')->name('settings.update');
     });
 });
