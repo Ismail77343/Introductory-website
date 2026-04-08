@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; }
+        .required-mark { margin-inline-start: .35rem; color: #f87171; font-weight: 900; }
         .admin-toast-enter { animation: adminToastIn .28s ease-out; }
         .admin-toast-exit { animation: adminToastOut .2s ease-in forwards; }
         @keyframes adminToastIn {
@@ -158,6 +159,29 @@
         @endif
     </div>
     <script>
+        document.querySelectorAll('form [required]').forEach((field) => {
+            const wrapper = field.closest('div, label');
+            const label = wrapper?.querySelector('label');
+            if (label && !label.querySelector('.required-mark')) {
+                label.insertAdjacentHTML('beforeend', '<span class="required-mark">*</span>');
+            }
+        });
+
+        let pendingDeleteForm = null;
+        const deleteModal = document.createElement('div');
+        deleteModal.className = 'fixed inset-0 z-[90] hidden items-center justify-center bg-slate-950/80 p-4';
+        deleteModal.innerHTML = `
+            <div class="w-full max-w-md rounded-[2rem] border border-white/10 bg-slate-900 p-6">
+                <h3 class="text-2xl font-black text-white">{{ __('admin.delete') }}</h3>
+                <p class="mt-3 text-slate-300" data-delete-message>{{ __('admin.review_fields') }}</p>
+                <div class="mt-6 flex gap-3">
+                    <button type="button" class="flex-1 rounded-2xl border border-white/10 px-5 py-3 font-bold text-white" data-delete-cancel>{{ __('admin.cancel') }}</button>
+                    <button type="button" class="flex-1 rounded-2xl bg-rose-500/20 px-5 py-3 font-bold text-rose-200" data-delete-confirm>{{ __('admin.delete') }}</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(deleteModal);
+
         document.querySelectorAll('[data-close-toast]').forEach((button) => {
             button.addEventListener('click', () => {
                 const toast = button.closest('[data-admin-toast]');
@@ -171,6 +195,34 @@
                 toast.classList.add('admin-toast-exit');
                 setTimeout(() => toast.remove(), 180);
             }, 3500);
+        });
+
+        document.querySelectorAll('form[data-delete-confirm]').forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                pendingDeleteForm = form;
+                deleteModal.querySelector('[data-delete-message]').textContent = form.dataset.deleteConfirm;
+                deleteModal.classList.remove('hidden');
+                deleteModal.classList.add('flex');
+            });
+        });
+
+        deleteModal.querySelector('[data-delete-cancel]').addEventListener('click', () => {
+            pendingDeleteForm = null;
+            deleteModal.classList.add('hidden');
+            deleteModal.classList.remove('flex');
+        });
+
+        deleteModal.querySelector('[data-delete-confirm]').addEventListener('click', () => {
+            pendingDeleteForm?.submit();
+        });
+
+        deleteModal.addEventListener('click', (event) => {
+            if (event.target === deleteModal) {
+                pendingDeleteForm = null;
+                deleteModal.classList.add('hidden');
+                deleteModal.classList.remove('flex');
+            }
         });
     </script>
 </body>

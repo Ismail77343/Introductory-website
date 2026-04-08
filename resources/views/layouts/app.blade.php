@@ -24,6 +24,7 @@
     <style>
         :root { --accent: #fbbf24; --ink: #020617; --panel: rgba(15, 23, 42, .72); --line: rgba(255,255,255,.1); }
         body { font-family: 'Cairo', sans-serif; }
+        .required-mark { margin-inline-start: .35rem; color: #f87171; font-weight: 900; }
         .reveal { opacity: 0; transform: translateY(32px) scale(.98); transition: opacity .85s ease, transform .85s ease; }
         .reveal-visible { opacity: 1; transform: translateY(0) scale(1); }
         .float-card { transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease; }
@@ -150,6 +151,14 @@
     </footer>
 
     <script>
+        document.querySelectorAll('form [required]').forEach((field) => {
+            const wrapper = field.closest('div, label');
+            const label = wrapper?.querySelector('label');
+            if (label && !label.querySelector('.required-mark')) {
+                label.insertAdjacentHTML('beforeend', '<span class="required-mark">*</span>');
+            }
+        });
+
         const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {

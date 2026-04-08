@@ -20,8 +20,8 @@
                     @method('PUT')
                 @endif
 
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_product_name') }}</label><input type="text" name="name" value="{{ old('name', $product->name) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.sku') }}</label><input type="text" name="sku" value="{{ old('sku', $product->sku) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_product_name') }}</label><input type="text" name="name" value="{{ old('name', $product->name) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.sku') }}</label><input type="text" name="sku" value="{{ old('sku', $product->sku) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div><label class="mb-2 block text-sm text-slate-300">Slug</label><input type="text" name="slug" value="{{ old('slug', $product->slug) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_category') }}</label><input type="text" name="category" value="{{ old('category', $product->category) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div class="md:col-span-2"><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_tagline') }}</label><input type="text" name="tagline" value="{{ old('tagline', $product->tagline) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>

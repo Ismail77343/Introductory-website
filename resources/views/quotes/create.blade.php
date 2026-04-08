@@ -12,15 +12,15 @@
                 <div class="grid gap-5 md:grid-cols-2">
                     <div>
                         <label class="mb-2 block text-sm text-slate-300">{{ __('ui.company_name') }}</label>
-                        <input type="text" name="company_name" value="{{ old('company_name') }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
+                        <input type="text" name="company_name" value="{{ old('company_name') }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
                     </div>
                     <div>
                         <label class="mb-2 block text-sm text-slate-300">{{ __('ui.contact_person') }}</label>
-                        <input type="text" name="contact_person" value="{{ old('contact_person') }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
+                        <input type="text" name="contact_person" value="{{ old('contact_person') }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
                     </div>
                     <div>
                         <label class="mb-2 block text-sm text-slate-300">{{ __('ui.email') }}</label>
-                        <input type="email" name="email" value="{{ old('email') }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
+                        <input type="email" name="email" value="{{ old('email') }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
                     </div>
                     <div>
                         <label class="mb-2 block text-sm text-slate-300">{{ __('ui.phone') }}</label>

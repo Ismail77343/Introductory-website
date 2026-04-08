@@ -15,7 +15,7 @@
                 <div class="space-y-6">
                     <div class="rounded-[1.75rem] border border-white/10 bg-slate-950/50 p-6">
                         <div class="grid gap-5 md:grid-cols-2">
-                            <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.role_name') }}</label><input type="text" name="name" value="{{ old('name', $role->name) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                            <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.role_name') }}</label><input type="text" name="name" value="{{ old('name', $role->name) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                             <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.role_slug') }}</label><input type="text" name="slug" value="{{ old('slug', $role->slug) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                             <div class="md:col-span-2"><label class="mb-2 block text-sm text-slate-300">{{ __('admin.role_description') }}</label><textarea name="description" rows="4" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">{{ old('description', $role->description) }}</textarea></div>
                             <label class="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-slate-300"><input type="checkbox" name="is_active" value="1" @checked(old('is_active', $role->is_active))>{{ __('admin.active_status') }}</label>

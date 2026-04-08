@@ -10,11 +10,11 @@
                 @csrf
                 <div>
                     <label class="mb-2 block text-sm text-slate-300">{{ __('admin.email') }}</label>
-                    <input type="email" name="email" value="{{ old('email') }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
+                    <input type="email" name="email" value="{{ old('email') }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
                 </div>
                 <div>
                     <label class="mb-2 block text-sm text-slate-300">{{ __('admin.password') }}</label>
-                    <input type="password" name="password" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
+                    <input type="password" name="password" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
                 </div>
                 <label class="flex items-center gap-3 text-slate-300">
                     <input type="checkbox" name="remember" value="1">

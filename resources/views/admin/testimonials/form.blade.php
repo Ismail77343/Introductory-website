@@ -11,11 +11,11 @@
                     @method('PUT')
                 @endif
 
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_client_name') }}</label><input type="text" name="client_name" value="{{ old('client_name', $testimonial->client_name) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_client_name') }}</label><input type="text" name="client_name" value="{{ old('client_name', $testimonial->client_name) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_client_title') }}</label><input type="text" name="client_title" value="{{ old('client_title', $testimonial->client_title) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_company_name') }}</label><input type="text" name="company_name" value="{{ old('company_name', $testimonial->company_name) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.rating') }}</label><input type="number" min="1" max="5" name="rating" value="{{ old('rating', $testimonial->rating) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                <div class="md:col-span-2"><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_quote') }}</label><textarea name="quote" rows="5" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">{{ old('quote', $testimonial->quote) }}</textarea></div>
+                <div class="md:col-span-2"><label class="mb-2 block text-sm text-slate-300">{{ __('admin.base_quote') }}</label><textarea name="quote" rows="5" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">{{ old('quote', $testimonial->quote) }}</textarea></div>
                 <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.sort_order') }}</label><input type="number" name="sort_order" value="{{ old('sort_order', $testimonial->sort_order) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
 
                 <div class="md:col-span-2 space-y-6">

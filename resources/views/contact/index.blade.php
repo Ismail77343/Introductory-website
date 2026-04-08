@@ -30,11 +30,11 @@
                     <div class="grid gap-5 md:grid-cols-2">
                         <div>
                             <label class="mb-2 block text-sm text-slate-300">{{ __('ui.name_or_company') }}</label>
-                            <input type="text" name="name" value="{{ old('name') }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
+                            <input type="text" name="name" value="{{ old('name') }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
                         </div>
                         <div>
                             <label class="mb-2 block text-sm text-slate-300">{{ __('ui.email') }}</label>
-                            <input type="email" name="email" value="{{ old('email') }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
+                            <input type="email" name="email" value="{{ old('email') }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
                         </div>
                     </div>
                     <div>
@@ -47,7 +47,7 @@
                     </div>
                     <div>
                         <label class="mb-2 block text-sm text-slate-300">{{ __('ui.message') }}</label>
-                        <textarea name="message" rows="6" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">{{ old('message') }}</textarea>
+                        <textarea name="message" rows="6" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">{{ old('message') }}</textarea>
                     </div>
                     <button class="rounded-2xl bg-amber-400 px-8 py-4 font-bold text-slate-950">{{ __('ui.send_message') }}</button>
                 </form>

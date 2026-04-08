@@ -13,8 +13,8 @@
                     <h2 class="text-2xl font-black text-white">{{ __('admin.profile_information') }}</h2>
                     <p class="mt-2 text-sm text-slate-400">{{ __('admin.profile_information_help') }}</p>
                     <div class="mt-6 grid gap-5">
-                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.user_name') }}</label><input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.email') }}</label><input type="email" name="email" value="{{ old('email', $user->email) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.user_name') }}</label><input type="text" name="name" value="{{ old('name', $user->name) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.email') }}</label><input type="email" name="email" value="{{ old('email', $user->email) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                         <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.phone') }}</label><input type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                         <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.job_title') }}</label><input type="text" name="job_title" value="{{ old('job_title', $user->job_title) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                         <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.preferred_language') }}</label><select name="preferred_locale" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"><option value="">{{ __('admin.default_site_language') }}</option>@foreach ($languages as $language)<option value="{{ $language->code }}" @selected(old('preferred_locale', $user->preferred_locale) === $language->code)>{{ $language->native_name }}</option>@endforeach</select></div>
@@ -28,9 +28,9 @@
                     <h2 class="text-2xl font-black text-white">{{ __('admin.change_password') }}</h2>
                     <p class="mt-2 text-sm text-slate-400">{{ __('admin.change_password_help') }}</p>
                     <div class="mt-6 grid gap-5">
-                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.current_password') }}</label><input type="password" name="current_password" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.new_password') }}</label><input type="password" name="password" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.confirm_new_password') }}</label><input type="password" name="password_confirmation" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.current_password') }}</label><input type="password" name="current_password" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.new_password') }}</label><input type="password" name="password" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                        <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.confirm_new_password') }}</label><input type="password" name="password_confirmation" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                     </div>
                     <button class="mt-6 rounded-2xl border border-white/10 px-8 py-4 font-bold text-white">{{ __('admin.update_password') }}</button>
                 </form>

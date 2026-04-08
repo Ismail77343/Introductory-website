@@ -31,7 +31,7 @@
                             <td class="px-5 py-4">
                                 <div class="flex flex-wrap gap-2">
                                     <a href="{{ route('admin.about-sections.edit', $section) }}" class="rounded-xl bg-white/10 px-3 py-2">{{ __('admin.edit') }}</a>
-                                    <form method="POST" action="{{ route('admin.about-sections.destroy', $section) }}" onsubmit="return confirm('{{ __('admin.confirm_delete_section') }}')">
+                                    <form method="POST" action="{{ route('admin.about-sections.destroy', $section) }}" data-delete-confirm="{{ __('admin.confirm_delete_section') }}">
                                         @csrf
                                         @method('DELETE')
                                         <button class="rounded-xl bg-rose-500/20 px-3 py-2 text-rose-200">{{ __('admin.delete') }}</button>

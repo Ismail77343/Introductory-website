@@ -27,7 +27,7 @@
                     </div>
                     <div class="mt-5 flex gap-3">
                         <a href="{{ route('admin.roles.edit', $role) }}" class="rounded-2xl border border-white/10 px-4 py-3 font-bold text-white">{{ __('admin.edit') }}</a>
-                        <form method="POST" action="{{ route('admin.roles.destroy', $role) }}" onsubmit="return confirm('{{ __('admin.confirm_delete_role') }}')">
+                        <form method="POST" action="{{ route('admin.roles.destroy', $role) }}" data-delete-confirm="{{ __('admin.confirm_delete_role') }}">
                             @csrf
                             @method('DELETE')
                             <button class="rounded-2xl bg-rose-500/20 px-4 py-3 font-bold text-rose-200">{{ __('admin.delete') }}</button>

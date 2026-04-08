@@ -36,7 +36,7 @@
                                 <div class="flex flex-wrap gap-2">
                                     <a href="{{ route('admin.languages.edit', $language) }}" class="rounded-xl bg-white/10 px-3 py-2">{{ __('admin.edit') }}</a>
                                     @if (! $language->is_default)
-                                        <form method="POST" action="{{ route('admin.languages.destroy', $language) }}" onsubmit="return confirm('{{ __('admin.confirm_delete_language') }}')">
+                                    <form method="POST" action="{{ route('admin.languages.destroy', $language) }}" data-delete-confirm="{{ __('admin.confirm_delete_language') }}">
                                             @csrf
                                             @method('DELETE')
                                             <button class="rounded-xl bg-rose-500/20 px-3 py-2 text-rose-200">{{ __('admin.delete') }}</button>

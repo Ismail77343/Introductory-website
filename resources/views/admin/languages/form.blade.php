@@ -11,9 +11,9 @@
                     @method('PUT')
                 @endif
 
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.code') }}</label><input type="text" name="code" value="{{ old('code', $language->code) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.name') }}</label><input type="text" name="name" value="{{ old('name', $language->name) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.native_name') }}</label><input type="text" name="native_name" value="{{ old('native_name', $language->native_name) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.code') }}</label><input type="text" name="code" value="{{ old('code', $language->code) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.name') }}</label><input type="text" name="name" value="{{ old('name', $language->name) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.native_name') }}</label><input type="text" name="native_name" value="{{ old('native_name', $language->native_name) }}" required class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div>
                     <label class="mb-2 block text-sm text-slate-300">{{ __('admin.direction') }}</label>
                     <select name="direction" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white">
