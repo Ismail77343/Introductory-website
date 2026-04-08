@@ -23,7 +23,7 @@ class AdminSiteSettingController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'site_name' => ['required', 'string', 'max:255'],
+            'site_name' => ['nullable', 'string', 'max:255'],
             'site_tagline' => ['nullable', 'string', 'max:255'],
             'logo_url' => ['nullable', 'url', 'max:2048'],
             'logo_file' => ['nullable', 'image', 'max:4096'],
@@ -46,15 +46,7 @@ class AdminSiteSettingController extends Controller
 
         $settings = SiteSetting::query()->firstOrCreate([]);
 
-        if ($request->hasFile('logo_file')) {
-            $validated['logo_path'] = $this->storeUploadedFile($request->file('logo_file'), 'site');
-        }
-
-        if ($request->hasFile('default_article_image_file')) {
-            $validated['default_article_image_path'] = $this->storeUploadedFile($request->file('default_article_image_file'), 'site');
-        }
-
-        $validated = array_merge($validated, $this->extractTranslationFields($request, [
+        $translatedFields = $this->extractTranslationFields($request, [
             'site_name',
             'site_tagline',
             'contact_address',
@@ -65,7 +57,27 @@ class AdminSiteSettingController extends Controller
             'default_meta_title',
             'default_meta_description',
             'default_meta_keywords',
-        ], app()->getFallbackLocale()));
+        ], app()->getFallbackLocale());
+
+        if (empty($validated['site_name']) && empty($translatedFields['site_name'])) {
+            return back()
+                ->withErrors(['site_name' => __('The site name field is required.')])
+                ->withInput();
+        }
+
+        if ($request->hasFile('logo_file')) {
+            $validated['logo_path'] = $this->storeUploadedFile($request->file('logo_file'), 'site');
+        }
+
+        if ($request->hasFile('default_article_image_file')) {
+            $validated['default_article_image_path'] = $this->storeUploadedFile($request->file('default_article_image_file'), 'site');
+        }
+
+        $validated = array_merge($validated, $translatedFields);
+
+        if (empty($validated['site_name'])) {
+            $validated['site_name'] = $settings->site_name;
+        }
 
         $settings->update($validated);
 

@@ -18,6 +18,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; }
+        .admin-toast-enter { animation: adminToastIn .28s ease-out; }
+        .admin-toast-exit { animation: adminToastOut .2s ease-in forwards; }
+        @keyframes adminToastIn {
+            from { opacity: 0; transform: translateY(-14px) scale(.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes adminToastOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(-12px) scale(.98); }
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-white">
@@ -84,31 +94,56 @@
                 </div>
             </header>
 
-            @if (session('success'))
-                <div class="px-4 pt-6 sm:px-6 lg:px-8">
-                    <div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4 text-emerald-100">
-                        {{ session('success') }}
-                    </div>
-                </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="px-4 pt-6 sm:px-6 lg:px-8">
-                    <div class="rounded-2xl border border-rose-500/30 bg-rose-500/10 px-5 py-4 text-rose-100">
-                        <p class="mb-2 font-bold">{{ __('admin.review_fields') }}</p>
-                        <ul class="space-y-1 text-sm">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            @endif
-
             <main class="flex-1">
                 @yield('content')
             </main>
         </div>
     </div>
+    <div class="pointer-events-none fixed inset-x-4 top-4 z-[80] mx-auto flex max-w-xl flex-col gap-3 sm:right-6 sm:left-auto sm:mx-0 sm:w-full sm:max-w-md">
+        @if (session('success'))
+            <div class="admin-toast-enter pointer-events-auto rounded-[1.5rem] border border-emerald-500/30 bg-slate-900/95 p-4 shadow-2xl shadow-emerald-900/20 backdrop-blur" data-admin-toast>
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-black text-emerald-300">{{ __('admin.toast_success_title') }}</p>
+                        <p class="mt-1 text-sm text-slate-100">{{ session('success') }}</p>
+                    </div>
+                    <button type="button" class="rounded-full border border-white/10 px-3 py-1 text-xs font-bold text-slate-300" data-close-toast>{{ __('admin.close') }}</button>
+                </div>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="admin-toast-enter pointer-events-auto rounded-[1.5rem] border border-rose-500/30 bg-slate-900/95 p-4 shadow-2xl shadow-rose-900/20 backdrop-blur" data-admin-toast data-toast-persist>
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-black text-rose-300">{{ __('admin.toast_error_title') }}</p>
+                        <p class="mt-1 text-sm text-slate-100">{{ __('admin.review_fields') }}</p>
+                        <ul class="mt-2 space-y-1 text-sm text-slate-300">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <button type="button" class="rounded-full border border-white/10 px-3 py-1 text-xs font-bold text-slate-300" data-close-toast>{{ __('admin.close') }}</button>
+                </div>
+            </div>
+        @endif
+    </div>
+    <script>
+        document.querySelectorAll('[data-close-toast]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const toast = button.closest('[data-admin-toast]');
+                toast?.classList.add('admin-toast-exit');
+                setTimeout(() => toast?.remove(), 180);
+            });
+        });
+
+        document.querySelectorAll('[data-admin-toast]:not([data-toast-persist])').forEach((toast) => {
+            setTimeout(() => {
+                toast.classList.add('admin-toast-exit');
+                setTimeout(() => toast.remove(), 180);
+            }, 3500);
+        });
+    </script>
 </body>
 </html>

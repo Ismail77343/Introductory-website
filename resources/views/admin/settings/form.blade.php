@@ -1,6 +1,15 @@
 @extends('layouts.admin', ['title' => __('admin.settings_title')])
 
 @section('content')
+    @php
+        $logoPath = old('logo_path', $settings->logo_path);
+        $logoUrl = old('logo_url', $settings->logo_url);
+        $defaultArticleImagePath = old('default_article_image_path', $settings->default_article_image_path);
+        $defaultArticleImageUrl = old('default_article_image_url', $settings->default_article_image_url);
+        $logoPreview = $logoPath ? asset($logoPath) : ($logoUrl ?: null);
+        $defaultArticlePreview = $defaultArticleImagePath ? asset($defaultArticleImagePath) : ($defaultArticleImageUrl ?: null);
+    @endphp
+
     <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6 lg:p-8">
             <h1 class="text-4xl font-black text-white">{{ __('admin.settings_title') }}</h1>
@@ -14,10 +23,37 @@
                 <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.phone') }}</label><input type="text" name="contact_phone" value="{{ old('contact_phone', $settings->contact_phone) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.whatsapp') }}</label><input type="text" name="whatsapp_number" value="{{ old('whatsapp_number', $settings->whatsapp_number) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
                 <div class="md:col-span-2"><label class="mb-2 block text-sm text-slate-300">{{ __('admin.map_embed_url') }}</label><input type="url" name="map_embed_url" value="{{ old('map_embed_url', $settings->map_embed_url) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.logo_url') }}</label><input type="url" name="logo_url" value="{{ old('logo_url', $settings->logo_url) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.upload_logo') }}</label><input type="file" name="logo_file" accept="image/*" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.default_article_image_url') }}</label><input type="url" name="default_article_image_url" value="{{ old('default_article_image_url', $settings->default_article_image_url) }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
-                <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.upload_default_article_image') }}</label><input type="file" name="default_article_image_file" accept="image/*" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white"></div>
+
+                <div class="md:col-span-2 grid gap-4 lg:grid-cols-2">
+                    <article class="rounded-[1.75rem] border border-white/10 bg-slate-950/70 p-5">
+                        <p class="text-sm text-slate-400">{{ __('admin.logo') }}</p>
+                        <p class="mt-1 text-sm text-slate-500">{{ __('admin.logo_card_help') }}</p>
+                        <div class="mt-4">
+                            @if ($logoPreview)
+                                <img src="{{ $logoPreview }}" alt="{{ __('admin.logo') }}" class="h-40 w-full rounded-2xl object-cover">
+                            @else
+                                <div class="flex h-40 items-center justify-center rounded-2xl border border-dashed border-white/10 text-slate-500">{{ __('admin.no_media') }}</div>
+                            @endif
+                        </div>
+                        <button type="button" data-modal-target="logo-modal" class="mt-4 w-full rounded-2xl bg-white/10 px-4 py-3 font-bold text-white">{{ __('admin.manage_logo') }}</button>
+                    </article>
+
+                    <article class="rounded-[1.75rem] border border-white/10 bg-slate-950/70 p-5">
+                        <p class="text-sm text-slate-400">{{ __('admin.default_article_image') }}</p>
+                        <p class="mt-1 text-sm text-slate-500">{{ __('admin.default_article_image_help') }}</p>
+                        <div class="mt-4">
+                            @if ($defaultArticlePreview)
+                                <img src="{{ $defaultArticlePreview }}" alt="{{ __('admin.default_article_image') }}" class="h-40 w-full rounded-2xl object-cover">
+                            @else
+                                <div class="flex h-40 items-center justify-center rounded-2xl border border-dashed border-white/10 text-slate-500">{{ __('admin.no_media') }}</div>
+                            @endif
+                        </div>
+                        <button type="button" data-modal-target="default-article-image-modal" class="mt-4 w-full rounded-2xl bg-white/10 px-4 py-3 font-bold text-white">{{ __('admin.manage_default_article_image') }}</button>
+                    </article>
+                </div>
+
+                <input type="hidden" name="logo_path" value="{{ $logoPath }}">
+                <input type="hidden" name="default_article_image_path" value="{{ $defaultArticleImagePath }}">
 
                 <div class="md:col-span-2 space-y-8">
                     @foreach ($activeLanguages as $language)
@@ -43,7 +79,58 @@
                     <button class="rounded-2xl bg-amber-400 px-8 py-4 font-bold text-slate-950">{{ __('admin.save_settings') }}</button>
                     <a href="{{ route('admin.dashboard') }}" class="rounded-2xl border border-white/10 px-8 py-4 font-bold text-white">{{ __('admin.back_to_dashboard') }}</a>
                 </div>
+
+                <div id="logo-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/75 p-4">
+                    <div class="w-full max-w-xl rounded-[2rem] border border-white/10 bg-slate-900 p-6">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-black text-white">{{ __('admin.manage_logo') }}</h2>
+                            <button type="button" data-close-modal class="text-slate-400">{{ __('admin.close') }}</button>
+                        </div>
+                        <div class="mt-6 space-y-5">
+                            <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.image_url') }}</label><input type="url" name="logo_url" value="{{ $logoUrl }}" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white"></div>
+                            <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.upload_logo') }}</label><input type="file" name="logo_file" accept="image/*" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="default-article-image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/75 p-4">
+                    <div class="w-full max-w-xl rounded-[2rem] border border-white/10 bg-slate-900 p-6">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-black text-white">{{ __('admin.manage_default_article_image') }}</h2>
+                            <button type="button" data-close-modal class="text-slate-400">{{ __('admin.close') }}</button>
+                        </div>
+                        <div class="mt-6 space-y-5">
+                            <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.image_url') }}</label><input type="url" name="default_article_image_url" value="{{ $defaultArticleImageUrl }}" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white"></div>
+                            <div><label class="mb-2 block text-sm text-slate-300">{{ __('admin.upload_default_article_image') }}</label><input type="file" name="default_article_image_file" accept="image/*" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white"></div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </section>
+
+    <script>
+        document.querySelectorAll('[data-modal-target]').forEach((button) => {
+            button.addEventListener('click', () => {
+                document.getElementById(button.dataset.modalTarget)?.classList.remove('hidden');
+                document.getElementById(button.dataset.modalTarget)?.classList.add('flex');
+            });
+        });
+
+        document.querySelectorAll('[data-close-modal]').forEach((button) => {
+            button.addEventListener('click', () => {
+                button.closest('.fixed')?.classList.add('hidden');
+                button.closest('.fixed')?.classList.remove('flex');
+            });
+        });
+
+        document.querySelectorAll('.fixed[id$="-modal"]').forEach((modal) => {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            });
+        });
+    </script>
 @endsection
