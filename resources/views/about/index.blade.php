@@ -53,7 +53,7 @@
                     <div class="mt-6 space-y-4">
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
                             <p class="text-sm text-slate-400">{{ __('ui.email') }}</p>
-                            <p class="mt-2 font-bold text-white">{{ $siteSettings->contact_email ?? 'info@nofouthfuture.com' }}</p>
+                            <p class="mt-2 font-bold text-white">{{ $siteSettings->contact_email ?? 'info@example.com' }}</p>
                         </div>
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
                             <p class="text-sm text-slate-400">{{ __('ui.phone') }}</p>

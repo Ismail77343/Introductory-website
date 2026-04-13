@@ -17,55 +17,37 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --brand-light: #81b9dd;
-            --brand-deep: #2756a3;
-            --admin-bg: #071426;
-            --admin-surface: rgba(11, 28, 56, .84);
-            --admin-surface-soft: rgba(19, 42, 79, .72);
-            --admin-line: rgba(129, 185, 221, .18);
-            --admin-text: #eef5fb;
-            --admin-muted: #aac5dc;
-            --admin-shadow: rgba(39, 86, 163, .22);
+        body { font-family: 'Cairo', sans-serif; }
+        .required-mark { margin-inline-start: .35rem; color: #f87171; font-weight: 900; }
+        .admin-toast-enter { animation: adminToastIn .28s ease-out; }
+        .admin-toast-exit { animation: adminToastOut .2s ease-in forwards; }
+        @keyframes adminToastIn {
+            from { opacity: 0; transform: translateY(-14px) scale(.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        body { font-family: 'Cairo', sans-serif; background: linear-gradient(180deg, #071426, #0e2344 55%, #122d5c); color: var(--admin-text); }
-        body, aside, header, main, a, button, input, textarea, select, div, span { transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease; }
-        [class*="shadow-amber-"] { --tw-shadow-color: var(--admin-shadow) !important; }
-        [class~="text-amber-300"] { color: #aed5ea !important; }
-        [class~="bg-amber-400"] { background-color: var(--brand-deep) !important; color: #f8fbff !important; }
-        [class~="bg-amber-400"]:hover { background-color: #1f4686 !important; }
-        [class~="text-slate-950"] { color: #f8fbff !important; }
-        [class~="border-white/10"] { border-color: var(--admin-line) !important; }
-        [class~="bg-white/5"] { background-color: rgba(129, 185, 221, .08) !important; }
-        [class~="bg-slate-950"] { background-color: rgba(7, 20, 38, .92) !important; }
-        [class~="bg-slate-950/40"] { background-color: rgba(7, 20, 38, .44) !important; }
-        [class~="bg-slate-950/60"] { background-color: rgba(7, 20, 38, .64) !important; }
-        [class~="bg-slate-950/70"] { background-color: rgba(7, 20, 38, .76) !important; }
-        [class~="bg-slate-900"] { background-color: var(--admin-surface) !important; }
-        [class~="bg-slate-900/70"] { background-color: var(--admin-surface-soft) !important; }
-        [class~="text-white"] { color: var(--admin-text) !important; }
-        [class~="text-slate-300"] { color: var(--admin-muted) !important; }
-        [class~="text-slate-400"] { color: #81aac9 !important; }
-        [class~="text-slate-500"] { color: #6f95b5 !important; }
-        [class~="hover:text-white"]:hover { color: #f8fbff !important; }
-        [class~="hover:bg-white/5"]:hover { background-color: rgba(129, 185, 221, .14) !important; }
-        [class~="shadow-black/10"], [class~="shadow-black/20"] { --tw-shadow-color: rgba(4, 14, 30, .24) !important; }
+        @keyframes adminToastOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(-12px) scale(.98); }
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-white">
     @php
         $adminLogo = $siteSettings?->logo_path ? asset($siteSettings->logo_path) : ($siteSettings?->logo_url ?: null);
+        $adminUser = auth()->user();
         $adminLinks = [
-            ['label' => __('admin.nav_home'), 'route' => 'admin.dashboard'],
-            ['label' => __('admin.nav_settings'), 'route' => 'admin.settings.edit'],
-            ['label' => __('admin.nav_products'), 'route' => 'admin.products.index'],
-            ['label' => __('admin.nav_home_sections'), 'route' => 'admin.home-sections.index'],
-            ['label' => __('admin.nav_about_sections'), 'route' => 'admin.about-sections.index'],
-            ['label' => __('admin.nav_articles'), 'route' => 'admin.articles.index'],
-            ['label' => __('admin.nav_testimonials'), 'route' => 'admin.testimonials.index'],
-            ['label' => __('admin.nav_languages'), 'route' => 'admin.languages.index'],
-            ['label' => __('admin.nav_quotes'), 'route' => 'admin.quotes.index'],
-            ['label' => __('admin.nav_messages'), 'route' => 'admin.messages.index'],
+            ['label' => __('admin.nav_home'), 'route' => 'admin.dashboard', 'permission' => 'dashboard.view'],
+            ['label' => __('admin.nav_settings'), 'route' => 'admin.settings.edit', 'permission' => 'settings.manage'],
+            ['label' => __('admin.nav_products'), 'route' => 'admin.products.index', 'permission' => 'products.manage'],
+            ['label' => __('admin.nav_home_sections'), 'route' => 'admin.home-sections.index', 'permission' => 'home_sections.manage'],
+            ['label' => __('admin.nav_about_sections'), 'route' => 'admin.about-sections.index', 'permission' => 'about_sections.manage'],
+            ['label' => __('admin.nav_articles'), 'route' => 'admin.articles.index', 'permission' => 'articles.manage'],
+            ['label' => __('admin.nav_testimonials'), 'route' => 'admin.testimonials.index', 'permission' => 'testimonials.manage'],
+            ['label' => __('admin.nav_languages'), 'route' => 'admin.languages.index', 'permission' => 'languages.manage'],
+            ['label' => __('admin.nav_quotes'), 'route' => 'admin.quotes.index', 'permission' => 'quotes.view'],
+            ['label' => __('admin.nav_messages'), 'route' => 'admin.messages.index', 'permission' => 'messages.view'],
+            ['label' => __('admin.nav_roles'), 'route' => 'admin.roles.index', 'permission' => 'roles.manage'],
+            ['label' => __('admin.nav_users'), 'route' => 'admin.users.index', 'permission' => 'users.manage'],
         ];
     @endphp
 
@@ -79,7 +61,7 @@
                         <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-400 text-slate-950 font-black">NF</div>
                     @endif
                     <div>
-                        <p class="text-xl font-black text-amber-300">{{ $siteSettings?->translate('site_name') ?? 'Nofouth Future Company' }}</p>
+                        <p class="text-xl font-black text-amber-300">{{ $siteSettings?->translate('site_name') ?? 'Nofouth Future' }}</p>
                         <p class="text-sm text-slate-400">{{ __('admin.site_control_panel') }}</p>
                     </div>
                 </a>
@@ -89,6 +71,7 @@
                 <p class="mb-3 px-4 text-xs font-bold tracking-[0.3em] text-slate-500">{{ __('admin.admin_section') }}</p>
                 <nav class="space-y-2">
                     @foreach ($adminLinks as $link)
+                        @continue(! $adminUser || ! $adminUser->hasPermission($link['permission']))
                         <a href="{{ route($link['route']) }}" class="flex items-center justify-between rounded-2xl px-4 py-3 font-bold transition {{ request()->routeIs($link['route']) ? 'bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/20' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                             <span>{{ $link['label'] }}</span>
                             <span class="text-xs opacity-70">›</span>
@@ -97,7 +80,16 @@
                 </nav>
             </div>
 
-            <div class="mt-auto border-t border-white/10 p-4">
+            <div class="mt-auto space-y-4 border-t border-white/10 p-4">
+                @if ($adminUser)
+                    <a href="{{ route('admin.profile.edit') }}" class="flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">
+                        <div>
+                            <p class="font-bold text-white">{{ $adminUser->name }}</p>
+                            <p class="text-sm text-slate-400">{{ $adminUser->job_title ?: __('admin.nav_profile') }}</p>
+                        </div>
+                        <span class="text-xs opacity-70">&rsaquo;</span>
+                    </a>
+                @endif
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button class="w-full rounded-2xl border border-white/10 px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">{{ __('admin.logout') }}</button>
@@ -112,35 +104,126 @@
                         <p class="text-sm text-slate-400">{{ __('admin.dashboard_intro') }}</p>
                         <h1 class="text-2xl font-black text-white">{{ $title ?? __('admin.dashboard') }}</h1>
                     </div>
-                    <a href="{{ route('home') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.view_site') }}</a>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <a href="{{ route('admin.profile.edit') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.nav_profile') }}</a>
+                        <a href="{{ route('home') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.view_site') }}</a>
+                    </div>
                 </div>
             </header>
-
-            @if (session('success'))
-                <div class="px-4 pt-6 sm:px-6 lg:px-8">
-                    <div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4 text-emerald-100">
-                        {{ session('success') }}
-                    </div>
-                </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="px-4 pt-6 sm:px-6 lg:px-8">
-                    <div class="rounded-2xl border border-rose-500/30 bg-rose-500/10 px-5 py-4 text-rose-100">
-                        <p class="mb-2 font-bold">{{ __('admin.review_fields') }}</p>
-                        <ul class="space-y-1 text-sm">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            @endif
 
             <main class="flex-1">
                 @yield('content')
             </main>
         </div>
     </div>
+    <div class="pointer-events-none fixed inset-x-4 top-4 z-[80] mx-auto flex max-w-xl flex-col gap-3 sm:right-6 sm:left-auto sm:mx-0 sm:w-full sm:max-w-md">
+        @if (session('success'))
+            <div class="admin-toast-enter pointer-events-auto rounded-[1.5rem] border border-emerald-500/30 bg-slate-900/95 p-4 shadow-2xl shadow-emerald-900/20 backdrop-blur" data-admin-toast>
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-black text-emerald-300">{{ __('admin.toast_success_title') }}</p>
+                        <p class="mt-1 text-sm text-slate-100">{{ session('success') }}</p>
+                    </div>
+                    <button type="button" class="rounded-full border border-white/10 px-3 py-1 text-xs font-bold text-slate-300" data-close-toast>{{ __('admin.close') }}</button>
+                </div>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="admin-toast-enter pointer-events-auto rounded-[1.5rem] border border-amber-500/30 bg-slate-900/95 p-4 shadow-2xl shadow-amber-900/20 backdrop-blur" data-admin-toast data-toast-persist>
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-black text-amber-300">{{ __('admin.toast_error_title') }}</p>
+                        <p class="mt-1 text-sm text-slate-100">{{ session('error') }}</p>
+                    </div>
+                    <button type="button" class="rounded-full border border-white/10 px-3 py-1 text-xs font-bold text-slate-300" data-close-toast>{{ __('admin.close') }}</button>
+                </div>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="admin-toast-enter pointer-events-auto rounded-[1.5rem] border border-rose-500/30 bg-slate-900/95 p-4 shadow-2xl shadow-rose-900/20 backdrop-blur" data-admin-toast data-toast-persist>
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-black text-rose-300">{{ __('admin.toast_error_title') }}</p>
+                        <p class="mt-1 text-sm text-slate-100">{{ __('admin.review_fields') }}</p>
+                        <ul class="mt-2 space-y-1 text-sm text-slate-300">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <button type="button" class="rounded-full border border-white/10 px-3 py-1 text-xs font-bold text-slate-300" data-close-toast>{{ __('admin.close') }}</button>
+                </div>
+            </div>
+        @endif
+    </div>
+    <script>
+        document.querySelectorAll('form [required]').forEach((field) => {
+            const wrapper = field.closest('div, label');
+            const label = wrapper?.querySelector('label');
+            if (label && !label.querySelector('.required-mark')) {
+                label.insertAdjacentHTML('beforeend', '<span class="required-mark">*</span>');
+            }
+        });
+
+        let pendingDeleteForm = null;
+        const deleteModal = document.createElement('div');
+        deleteModal.className = 'fixed inset-0 z-[90] hidden items-center justify-center bg-slate-950/80 p-4';
+        deleteModal.innerHTML = `
+            <div class="w-full max-w-md rounded-[2rem] border border-white/10 bg-slate-900 p-6">
+                <h3 class="text-2xl font-black text-white">{{ __('admin.delete') }}</h3>
+                <p class="mt-3 text-slate-300" data-delete-message>{{ __('admin.review_fields') }}</p>
+                <div class="mt-6 flex gap-3">
+                    <button type="button" class="flex-1 rounded-2xl border border-white/10 px-5 py-3 font-bold text-white" data-delete-cancel>{{ __('admin.cancel') }}</button>
+                    <button type="button" class="flex-1 rounded-2xl bg-rose-500/20 px-5 py-3 font-bold text-rose-200" data-delete-confirm>{{ __('admin.delete') }}</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(deleteModal);
+
+        document.querySelectorAll('[data-close-toast]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const toast = button.closest('[data-admin-toast]');
+                toast?.classList.add('admin-toast-exit');
+                setTimeout(() => toast?.remove(), 180);
+            });
+        });
+
+        document.querySelectorAll('[data-admin-toast]:not([data-toast-persist])').forEach((toast) => {
+            setTimeout(() => {
+                toast.classList.add('admin-toast-exit');
+                setTimeout(() => toast.remove(), 180);
+            }, 3500);
+        });
+
+        document.querySelectorAll('form[data-delete-confirm]').forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                pendingDeleteForm = form;
+                deleteModal.querySelector('[data-delete-message]').textContent = form.dataset.deleteConfirm;
+                deleteModal.classList.remove('hidden');
+                deleteModal.classList.add('flex');
+            });
+        });
+
+        deleteModal.querySelector('[data-delete-cancel]').addEventListener('click', () => {
+            pendingDeleteForm = null;
+            deleteModal.classList.add('hidden');
+            deleteModal.classList.remove('flex');
+        });
+
+        deleteModal.querySelector('[data-delete-confirm]').addEventListener('click', () => {
+            pendingDeleteForm?.submit();
+        });
+
+        deleteModal.addEventListener('click', (event) => {
+            if (event.target === deleteModal) {
+                pendingDeleteForm = null;
+                deleteModal.classList.add('hidden');
+                deleteModal.classList.remove('flex');
+            }
+        });
+    </script>
 </body>
 </html>

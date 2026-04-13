@@ -157,7 +157,7 @@
             <div class="grid gap-6 md:grid-cols-3">
                 <article class="glass-card p-6">
                     <h3 class="text-xl font-black text-amber-300">{{ __('ui.email') }}</h3>
-                    <p class="mt-3 text-slate-200">{{ $siteInfo?->contact_email ?? 'info@nofouthfuture.com' }}</p>
+                    <p class="mt-3 text-slate-200">{{ $siteInfo?->contact_email ?? 'info@araib.com' }}</p>
                 </article>
                 <article class="glass-card p-6">
                     <h3 class="text-xl font-black text-amber-300">{{ __('ui.phone') }}</h3>
