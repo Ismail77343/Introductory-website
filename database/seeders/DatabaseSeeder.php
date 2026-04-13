@@ -439,14 +439,14 @@ class DatabaseSeeder extends Seeder
         ContactMessage::query()->create([
             'name' => 'مؤسسة الخليج للمقاولات',
             'email' => 'info@gulf-contracting.test',
-            'subject' => 'استفسار فني',
+            'subject' => 'استفسار فني  ',
             'message' => 'هل يمكنكم إرسال عرض لخدمات كشف الأعطال والصيانة الكهربائية لمبنى تجاري؟',
             'status' => 'new',
         ]);
         SiteSetting::query()->whereKey(1)->update([
             'site_name_translations' => ['ar' => 'شركة نفوذ المستقبل', 'en' => 'Nofouth Future Company'],
             'site_tagline_translations' => ['ar' => 'خدمات السباكة والكهرباء والصيانة الفنية', 'en' => 'Professional plumbing, electrical, and maintenance services'],
-            'contact_address_translations' => ['ar' => 'الرياض - المملكة العربية السعودية', 'en' => 'Riyadh - Saudi Arabia'],
+            'contact_address_translations' => ['ar' => '  الرياض - المملكة العربية السعودية', 'en' => 'Riyadh - Saudi Arabia'],
             'vision_translations' => ['ar' => 'أن نكون الخيار الأول في خدمات السباكة والكهرباء والصيانة الفنية للمشاريع السكنية والتجارية.', 'en' => 'To become the first choice for plumbing, electrical, and maintenance services for residential and commercial projects.'],
             'mission_translations' => ['ar' => 'تقديم خدمات فنية موثوقة وسريعة تركز على السلامة والجودة والالتزام، مع تجربة تواصل واضحة واحترافية لعملائنا.', 'en' => 'To deliver reliable and responsive technical services built on safety, quality, and professional client communication.'],
             'about_text_translations' => ['ar' => 'شركة نفوذ المستقبل متخصصة في خدمات السباكة والأعمال الكهربائية والصيانة العامة، ونوفر حلولاً عملية تناسب احتياجات المنازل والمنشآت التجارية.', 'en' => 'Nofouth Future Company specializes in plumbing, electrical, and general maintenance services for homes and commercial facilities.'],
@@ -457,7 +457,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         HomeSection::query()->where('key', 'hero')->update([
-            'title_translations' => ['ar' => 'خدمات سباكة وكهرباء وصيانة باحترافية عالية', 'en' => 'Professional Plumbing, Electrical, and Maintenance Services'],
+            'title_translations' => ['ar' => 'خدمات سباكة وكهرباء وصيانة باحترافية عالية ', 'en' => 'Professional Plumbing, Electrical, and Maintenance Services'],
             'subtitle_translations' => ['ar' => 'شركة نفوذ المستقبل تقدم حلولاً فنية موثوقة للمنازل والمنشآت التجارية مع سرعة استجابة وجودة تنفيذ.', 'en' => 'Nofouth Future Company delivers trusted technical solutions for homes and commercial facilities with responsive service and high-quality execution.'],
         ]);
 
