@@ -18,19 +18,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call(RolesPermissionsSeeder::class);
-        $superAdminRole = \App\Models\Role::query()->where('slug', 'super-admin')->firstOrFail();
-
-        $admin = User::query()->updateOrCreate(
-            ['email' => 'admin@nofouth.local'],
+        User::query()->updateOrCreate(
+            ['email' => 'admin@gmail.com'],
             [
                 'name' => 'Administrator',
-                'job_title' => 'System Administrator',
-                'is_active' => true,
-                'password' => Hash::make('admin12345'),
+                'password' => Hash::make('admin'),
             ]
         );
-        $admin->roles()->syncWithoutDetaching([$superAdminRole->id]);
 
         Language::query()->updateOrCreate(
             ['code' => 'ar'],
@@ -44,18 +38,18 @@ class DatabaseSeeder extends Seeder
 
         $products = [
             [
-                'name' => 'FLOW ARAIB 714',
-                'slug' => 'flow-araib-714',
-                'sku' => '714',
-                'category' => 'CPVC',
-                'tagline' => 'لاصق CPVC شديد السماكة',
-                'short_description' => 'لاصق عالي الأداء للأنابيب الكبيرة والضغط العالي مع قوة ربط ثابتة.',
-                'description' => 'تم تطوير FLOW ARAIB 714 لتطبيقات CPVC الحرجة في خطوط المياه الساخنة والباردة، ويمنح زمن تشغيل مناسبًا وقوة لحام كيميائي عالية في المشاريع الصناعية والتجارية.',
-                'viscosity' => 'Heavy Bodied',
-                'standard' => 'ASTM F493',
-                'max_diameter' => '12 بوصة',
-                'operating_temperature' => '93°م',
-                'color' => 'برتقالي',
+                'name' => 'Plumbing Installation',
+                'slug' => 'plumbing-installation',
+                'sku' => 'PLUMB-01',
+                'category' => 'Plumbing',
+                'tagline' => 'خدمات تركيب سباكة احترافية للمشاريع السكنية والتجارية',
+                'short_description' => 'تنفيذ وتمديد شبكات المياه والصرف الصحي باحترافية واعتمادية عالية.',
+                'description' => 'نقدّم خدمات تركيب السباكة للمنازل والمنشآت التجارية، بما يشمل التأسيس والتركيب والاختبار والتشغيل، مع جودة تنفيذ عالية والتزام بالسلامة في جميع مراحل العمل.',
+                'viscosity' => 'On-site installation',
+                'standard' => 'Residential & Commercial',
+                'max_diameter' => 'Full network coverage',
+                'operating_temperature' => 'Scheduled response',
+                'color' => 'Blue',
                 'badge' => 'الأكثر طلبًا',
                 'accent_color' => 'red',
                 'image_url' => 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=900&q=80',
@@ -66,19 +60,19 @@ class DatabaseSeeder extends Seeder
                 'sort_order' => 1,
             ],
             [
-                'name' => 'FLOW ARAIB 500',
-                'slug' => 'flow-araib-500',
-                'sku' => '500',
-                'category' => 'PVC',
-                'tagline' => 'لاصق PVC متوسط السماكة',
-                'short_description' => 'مناسب للتطبيقات السكنية والتجارية الخفيفة والمتوسطة.',
-                'description' => 'يوفر FLOW ARAIB 500 ختمًا موثوقًا لشبكات PVC مع سهولة تطبيق وسرعة تماسك، ما يجعله خيارًا عمليًا للمشاريع اليومية.',
-                'viscosity' => 'Medium Bodied',
-                'standard' => 'ASTM D2564',
-                'max_diameter' => '6 بوصة',
-                'operating_temperature' => '60°م',
-                'color' => 'أزرق',
-                'badge' => 'الأكثر استخدامًا',
+                'name' => 'Electrical Installation',
+                'slug' => 'electrical-installation',
+                'sku' => 'ELEC-01',
+                'category' => 'Electrical',
+                'tagline' => 'تنفيذ الأعمال الكهربائية بأعلى معايير السلامة',
+                'short_description' => 'تمديدات كهربائية، لوحات توزيع، إنارة، ومخارج للمباني الجديدة وأعمال التطوير.',
+                'description' => 'نوفر خدمات التركيب الكهربائي للمنازل والمنشآت التجارية، مع تنفيذ التمديدات وتركيب اللوحات والمخارج والإنارة وفق معايير مهنية تضمن السلامة والكفاءة التشغيلية.',
+                'viscosity' => 'Installation & upgrades',
+                'standard' => 'Safety-focused execution',
+                'max_diameter' => 'Homes & businesses',
+                'operating_temperature' => 'Flexible scheduling',
+                'color' => 'Deep Blue',
+                'badge' => 'خدمة شائعة',
                 'accent_color' => 'blue',
                 'image_url' => 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80',
                 'tds_url' => 'https://example.com/tds/500',
@@ -88,19 +82,19 @@ class DatabaseSeeder extends Seeder
                 'sort_order' => 2,
             ],
             [
-                'name' => 'FLOW ARAIB P-70',
-                'slug' => 'flow-araib-p70',
-                'sku' => 'P70',
-                'category' => 'Primer',
-                'tagline' => 'برايمر سريع المفعول',
-                'short_description' => 'محلول تنظيف وتحضير لتحسين اختراق اللاصق وجودة الربط.',
-                'description' => 'يساعد FLOW ARAIB P-70 على تجهيز السطح قبل عملية اللصق، ويعزز ثبات الوصلة خصوصًا في أنظمة الأنابيب التي تحتاج جودة عالية في التحضير.',
-                'viscosity' => 'Primer',
-                'standard' => 'Quality Certified',
-                'max_diameter' => 'حسب التطبيق',
-                'operating_temperature' => 'متعدد الاستخدام',
-                'color' => 'شفاف',
-                'badge' => 'تحضير أساسي',
+                'name' => 'Fault Detection & Repair',
+                'slug' => 'fault-detection-repair',
+                'sku' => 'MAINT-01',
+                'category' => 'Maintenance',
+                'tagline' => 'كشف الأعطال الفنية وإصلاحها بسرعة ودقة',
+                'short_description' => 'تشخيص مشاكل السباكة والكهرباء وتنفيذ الإصلاح المناسب في الوقت المناسب.',
+                'description' => 'يتولى فريقنا كشف الأعطال المفاجئة والتسربات والمشكلات الكهربائية بدقة، ثم تنفيذ الإصلاحات اللازمة بسرعة واحترافية للحفاظ على سلامة الموقع واستمرارية التشغيل.',
+                'viscosity' => 'Inspection & repair',
+                'standard' => 'Fast technical support',
+                'max_diameter' => 'Emergency & scheduled visits',
+                'operating_temperature' => 'Rapid response',
+                'color' => 'Light Blue',
+                'badge' => 'استجابة سريعة',
                 'accent_color' => 'yellow',
                 'image_url' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80',
                 'tds_url' => 'https://example.com/tds/p70',
@@ -110,19 +104,19 @@ class DatabaseSeeder extends Seeder
                 'sort_order' => 3,
             ],
             [
-                'name' => 'FLOW ARAIB 300',
-                'slug' => 'flow-araib-300',
-                'sku' => '300',
-                'category' => 'PVC',
-                'tagline' => 'لاصق PVC خفيف السماكة',
-                'short_description' => 'اقتصادي وسريع الجفاف لتطبيقات الصرف والضغط المنخفض.',
-                'description' => 'تم تصميم FLOW ARAIB 300 للأعمال الداخلية السريعة، ويمنح سرعة تنفيذ جيدة في المشاريع التي تتطلب تطبيقًا خفيفًا وفعالًا.',
-                'viscosity' => 'Light Bodied',
-                'standard' => 'ASTM D2564',
-                'max_diameter' => '4 بوصة',
-                'operating_temperature' => '50°م',
-                'color' => 'شفاف مائل للأزرق',
-                'badge' => 'سريع الجفاف',
+                'name' => 'General Maintenance Contracts',
+                'slug' => 'general-maintenance-contracts',
+                'sku' => 'SERV-02',
+                'category' => 'Maintenance',
+                'tagline' => 'عقود صيانة دورية للمباني والمرافق',
+                'short_description' => 'زيارات دورية وأعمال وقائية وتصحيحية للحفاظ على كفاءة التشغيل وتقليل الأعطال.',
+                'description' => 'نوفّر عقود صيانة مرنة تشمل الفحص الوقائي والمتابعة الدورية ومعالجة المشكلات الفنية في أنظمة السباكة والكهرباء والخدمات العامة للمباني والمنشآت.',
+                'viscosity' => 'Preventive maintenance',
+                'standard' => 'Scheduled service plans',
+                'max_diameter' => 'Residential & commercial sites',
+                'operating_temperature' => 'Monthly or custom visits',
+                'color' => 'Soft Blue',
+                'badge' => 'دعم مستمر',
                 'accent_color' => 'teal',
                 'image_url' => 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=900&q=80',
                 'tds_url' => 'https://example.com/tds/300',
@@ -139,8 +133,8 @@ class DatabaseSeeder extends Seeder
 
         $hero = HomeSection::query()->create([
             'key' => 'hero',
-            'title' => 'حلول CPVC الرائدة. قوة شركة نفوذ المستقبل',
-            'subtitle' => 'نحوّل الموقع الثابت إلى منصة أعمال ديناميكية تعرض المنتجات والمقالات وآراء العملاء وتستقبل الطلبات من قاعدة بيانات MySQL.',
+            'title' => 'خدمات سباكة وكهرباء وصيانة باحترافية عالية',
+            'subtitle' => 'شركة نفوذ المستقبل تقدم حلولاً فنية موثوقة للمنازل والمنشآت التجارية مع سرعة استجابة وجودة تنفيذ وخبرة ميدانية.',
             'variant' => 'hero',
             'anchor' => 'hero',
             'is_active' => true,
@@ -149,8 +143,8 @@ class DatabaseSeeder extends Seeder
 
         $hero->items()->create([
             'title' => 'ابدأ طلبك الآن',
-            'subtitle' => 'قوة ترابط تتحمل الحرارة والضغط',
-            'description' => 'موقع عربي ديناميكي لإدارة المحتوى والمنتجات والمقالات من لوحة تحكم واحدة.',
+            'subtitle' => 'حلول فنية سريعة وآمنة للمشاريع السكنية والتجارية',
+            'description' => 'خدمات متكاملة في السباكة والأعمال الكهربائية والصيانة العامة بإشراف فريق فني محترف.',
             'button_text' => 'طلب تسعيرة',
             'button_url' => '/quote-request',
             'image_url' => 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80',
@@ -162,28 +156,28 @@ class DatabaseSeeder extends Seeder
             ['id' => 1],
             [
                 'site_name' => 'شركة نفوذ المستقبل',
-                'site_tagline' => 'حلول لواصق CPVC و PVC الصناعية',
+                'site_tagline' => 'خدمات السباكة والكهرباء والصيانة الفنية',
                 'logo_url' => 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=300&q=80',
-                'contact_email' => 'info@araib.com',
+                'contact_email' => 'info@nofouthfuture.com',
                 'contact_phone' => '+966 577252986',
                 'contact_address' => 'الرياض - المملكة العربية السعودية',
                 'map_embed_url' => 'https://www.google.com/maps?q=Riyadh&output=embed',
                 'whatsapp_number' => '+966577252986',
-                'vision' => 'أن نكون الخيار الأول في حلول اللواصق الصناعية وإدارة المحتوى الفني للقطاع.',
-                'mission' => 'تقديم منتجات موثوقة ومنصة رقمية ديناميكية تساعد العملاء على الوصول السريع للمنتجات والمعلومات وطلبات التسعير.',
-                'about_text' => 'نحن شركة متخصصة في حلول اللواصق الصناعية، وتم تحويل هذا الموقع إلى منصة Laravel ديناميكية قابلة للإدارة الكاملة من لوحة التحكم.',
+                'vision' => 'أن نكون الخيار الأول في خدمات السباكة والكهرباء والصيانة الفنية للمشاريع السكنية والتجارية.',
+                'mission' => 'تقديم خدمات فنية موثوقة وسريعة تركز على السلامة والجودة والالتزام، مع تجربة تواصل واضحة واحترافية لعملائنا.',
+                'about_text' => 'شركة نفوذ المستقبل متخصصة في خدمات السباكة والأعمال الكهربائية والصيانة العامة، ونوفر حلولاً عملية تناسب احتياجات المنازل والمنشآت التجارية.',
                 'footer_text' => 'جميع الحقوق محفوظة - شركة نفوذ المستقبل',
                 'default_article_image_url' => 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
                 'default_meta_title' => 'شركة نفوذ المستقبل',
-                'default_meta_description' => 'موقع ديناميكي لمنتجات اللواصق الصناعية والمقالات وطلبات التسعير.',
-                'default_meta_keywords' => 'CPVC, PVC, لواصق صناعية, مقالات فنية, طلب تسعيرة',
+                'default_meta_description' => 'شركة نفوذ المستقبل لخدمات السباكة والكهرباء والصيانة الفنية للمنازل والمنشآت التجارية.',
+                'default_meta_keywords' => 'سباكة, كهرباء, صيانة, خدمات فنية, كشف أعطال, طلب تسعيرة',
             ]
         );
 
         $featureSection = HomeSection::query()->create([
-            'key' => 'why-714',
-            'title' => 'لماذا FLOW 714 هو خيارك الأفضل؟',
-            'subtitle' => 'هذا القسم قابل لزيادة عدد الكروت من لوحة الإدارة.',
+            'key' => 'why-us',
+            'title' => 'لماذا شركة نفوذ المستقبل؟',
+            'subtitle' => 'نقدّم خدمات فنية تعتمد على الخبرة والسرعة والالتزام بمعايير السلامة والجودة.',
             'variant' => 'cards',
             'anchor' => 'features',
             'is_active' => true,
@@ -192,22 +186,22 @@ class DatabaseSeeder extends Seeder
 
         $featureSection->items()->createMany([
             [
-                'title' => 'قوة لا تضاهى',
-                'description' => 'تركيبة Heavy Bodied تضمن ترابطًا فوريًا وموثوقًا لأنابيب CPVC حتى الأقطار الكبيرة.',
+                'title' => 'تنفيذ احترافي',
+                'description' => 'ننفذ الأعمال الميدانية بدقة عالية مع متابعة فنية تضمن جودة النتيجة من أول زيارة.',
                 'icon' => '⚡',
                 'sort_order' => 1,
                 'is_active' => true,
             ],
             [
-                'title' => 'تحمل درجات الحرارة',
-                'description' => 'مناسب لخطوط المياه الساخنة والأنظمة الصناعية التي تتطلب أداءً مستقرًا عند الحرارة العالية.',
+                'title' => 'استجابة سريعة',
+                'description' => 'نستجيب للأعطال والطلبات الطارئة بسرعة، مع تنظيم مواعيد مرن يناسب العملاء والمشاريع.',
                 'icon' => '🔥',
                 'sort_order' => 2,
                 'is_active' => true,
             ],
             [
-                'title' => 'معتمد وموثوق',
-                'description' => 'مصمم وفق معايير جودة عالية لدعم الاعتمادية والسلامة في مشاريع البنية التحتية.',
+                'title' => 'خبرة موثوقة',
+                'description' => 'نعتمد على كوادر فنية خبيرة في أعمال السباكة والكهرباء والصيانة للمباني السكنية والتجارية.',
                 'icon' => '👍',
                 'sort_order' => 3,
                 'is_active' => true,
@@ -217,7 +211,7 @@ class DatabaseSeeder extends Seeder
         $statsSection = HomeSection::query()->create([
             'key' => 'stats',
             'title' => 'شركة نفوذ المستقبل في أرقام',
-            'subtitle' => 'قسم إحصائيات ديناميكي يمكن تعديله أو زيادته.',
+            'subtitle' => 'مؤشرات تعكس خبرتنا الميدانية وثقة عملائنا وجودة تنفيذنا.',
             'variant' => 'stats',
             'anchor' => 'stats',
             'is_active' => true,
@@ -225,10 +219,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $statsSection->items()->createMany([
-            ['title' => '45+', 'metric' => '45+', 'metric_label' => 'عامًا من الخبرة', 'sort_order' => 1, 'is_active' => true],
-            ['title' => '3M+', 'metric' => '3M+', 'metric_label' => 'وصلة آمنة', 'sort_order' => 2, 'is_active' => true],
-            ['title' => '180°F', 'metric' => '180°F', 'metric_label' => 'تحمل حراري', 'sort_order' => 3, 'is_active' => true],
-            ['title' => 'NSF', 'metric' => 'NSF', 'metric_label' => 'شهادة جودة', 'sort_order' => 4, 'is_active' => true],
+            ['title' => '15+', 'metric' => '15+', 'metric_label' => 'عامًا من الخبرة', 'sort_order' => 1, 'is_active' => true],
+            ['title' => '850+', 'metric' => '850+', 'metric_label' => 'مشروعًا منجزًا', 'sort_order' => 2, 'is_active' => true],
+            ['title' => '24/7', 'metric' => '24/7', 'metric_label' => 'دعم واستجابة', 'sort_order' => 3, 'is_active' => true],
+            ['title' => '98%', 'metric' => '98%', 'metric_label' => 'رضا العملاء', 'sort_order' => 4, 'is_active' => true],
         ]);
 
         $valueSection = HomeSection::query()->create([
@@ -244,21 +238,21 @@ class DatabaseSeeder extends Seeder
         $valueSection->items()->createMany([
             [
                 'title' => 'الرؤية الاستراتيجية',
-                'description' => 'أن نكون المرجع الأول في حلول الترابط الحراري في المنطقة.',
+                'description' => 'أن نكون الخيار الأول للخدمات الفنية المتكاملة في السباكة والكهرباء والصيانة.',
                 'icon' => '🎯',
                 'sort_order' => 1,
                 'is_active' => true,
             ],
             [
                 'title' => 'الرسالة التنفيذية',
-                'description' => 'تزويد السوق بمنتجات تفوق معايير الجودة مع سرعة استجابة ودعم فني.',
+                'description' => 'تقديم خدمات موثوقة وسريعة تساعد العملاء على معالجة الأعطال وتنفيذ الأعمال بكفاءة وأمان.',
                 'icon' => '⚙️',
                 'sort_order' => 2,
                 'is_active' => true,
             ],
             [
                 'title' => 'الالتزام البيئي',
-                'description' => 'تطوير تركيبات أكثر أمانًا للعاملين وأقل أثرًا على البيئة.',
+                'description' => 'الالتزام بأساليب عمل آمنة ومنظمة تقلل المخاطر وتحافظ على سلامة الموقع والمستفيدين.',
                 'icon' => '🌱',
                 'sort_order' => 3,
                 'is_active' => true,
@@ -269,7 +263,7 @@ class DatabaseSeeder extends Seeder
             'page' => 'about',
             'key' => 'about-hero',
             'title' => 'رسالتنا ورؤيتنا',
-            'subtitle' => 'نقدم حلولاً صناعية موثوقة مدعومة بخبرة فنية ومحتوى ديناميكي يمكن تحديثه بالكامل من لوحة التحكم.',
+            'subtitle' => 'نقدّم خدمات فنية موثوقة في السباكة والكهرباء والصيانة العامة بخبرة عملية وفريق مؤهل.',
             'variant' => 'hero',
             'anchor' => 'about-hero',
             'is_active' => true,
@@ -279,7 +273,7 @@ class DatabaseSeeder extends Seeder
         $aboutHeroSection->items()->create([
             'title' => 'من نحن',
             'subtitle' => 'قصة الشركة وخبرتها',
-            'description' => 'تأسست الشركة بهدف توفير حلول لاصقة عالية الجودة لقطاعات البناء والبنية التحتية والتطبيقات الصناعية، مع التزام واضح بالجودة والاعتمادية والدعم الفني.',
+            'description' => 'تأسست الشركة لتقديم خدمات سباكة وكهرباء وصيانة فنية عالية الجودة للمباني السكنية والتجارية، مع التزام واضح بالاعتمادية وسرعة الاستجابة والدعم الفني.',
             'button_text' => 'تواصل معنا',
             'button_url' => '/contact',
             'image_url' => 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80',
@@ -291,7 +285,7 @@ class DatabaseSeeder extends Seeder
             'page' => 'about',
             'key' => 'about-certificates',
             'title' => 'شهادات الجودة والامتثال',
-            'subtitle' => 'منتجاتنا معتمدة وفق معايير الجودة والاعتمادية لدعم المشاريع الصناعية والتجارية.',
+            'subtitle' => 'خدماتنا تنفذ وفق معايير جودة واعتمادية عالية لدعم المشاريع السكنية والتجارية.',
             'variant' => 'cards',
             'anchor' => 'certificates',
             'is_active' => true,
@@ -316,7 +310,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $aboutTeamSection->items()->createMany([
-            ['title' => 'أحمد الدبعي', 'subtitle' => 'المدير العام', 'description' => 'خبرة طويلة في تطوير الحلول الكيميائية وقيادة المبادرات الصناعية.', 'icon' => '👤', 'sort_order' => 1, 'is_active' => true],
+            ['title' => 'أحمد الدبعي', 'subtitle' => 'المدير العام', 'description' => 'خبرة طويلة في إدارة الخدمات الفنية وقيادة فرق التنفيذ الميداني للمشاريع السكنية والتجارية.', 'icon' => '👤', 'sort_order' => 1, 'is_active' => true],
             ['title' => 'إدارة الجودة', 'subtitle' => 'المدير التقني', 'description' => 'متابعة المواصفات والاختبارات وضمان مطابقة المعايير الفنية.', 'icon' => '🧪', 'sort_order' => 2, 'is_active' => true],
             ['title' => 'تطوير الأعمال', 'subtitle' => 'العلاقات والمبيعات', 'description' => 'ربط الاحتياج الفني بالسوق والمشاريع وتسريع الاستجابة للعملاء.', 'icon' => '🤝', 'sort_order' => 3, 'is_active' => true],
         ]);
@@ -341,43 +335,43 @@ class DatabaseSeeder extends Seeder
 
         foreach ([
             [
-                'title' => 'دليل اختيار لاصق CPVC المناسب للمشاريع الحرارية',
-                'slug' => 'cpvc-adhesive-selection-guide',
-                'excerpt' => 'مقال يشرح كيف تختار التركيبة المناسبة حسب الحرارة والضغط والقطر.',
-                'body' => 'هذا المقال يشرح معايير اختيار لاصق CPVC المناسب، مثل درجة الحرارة، نوع الأنابيب، القطر، وظروف التشغيل في الموقع. ويمكن استخدام هذا المحتوى كقاعدة لمكتبة مقالات ديناميكية قابلة للنشر من لوحة التحكم.',
+                'title' => 'متى تحتاج إلى فني سباكة محترف؟',
+                'slug' => 'professional-plumbing-service-guide',
+                'excerpt' => 'دليل عملي يساعدك على معرفة الحالات التي تتطلب تدخلاً فنيًا سريعًا في أعمال السباكة.',
+                'body' => 'يشرح هذا المقال أبرز العلامات التي تشير إلى الحاجة لفني سباكة محترف، مثل التسربات المتكررة وضعف ضغط المياه وانسداد الصرف ومشكلات التمديدات الداخلية، مع نصائح تساعد على تقليل الأعطال قبل تفاقمها.',
                 'cover_image' => 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80',
                 'download_url' => 'https://example.com/articles/cpvc-guide.pdf',
-                'meta_title' => 'دليل اختيار لاصق CPVC المناسب',
-                'meta_description' => 'شرح معايير اختيار لاصق CPVC حسب نوع المشروع والضغط والحرارة.',
-                'meta_keywords' => 'لاصق CPVC, دليل CPVC, مقالات فنية',
+                'meta_title' => 'متى تحتاج إلى فني سباكة محترف؟',
+                'meta_description' => 'إرشادات تساعدك على معرفة الوقت المناسب لطلب خدمة سباكة احترافية.',
+                'meta_keywords' => 'سباكة, كشف تسربات, صيانة سباكة, خدمات فنية',
                 'is_published' => true,
                 'published_at' => now()->subDays(12),
                 'sort_order' => 1,
             ],
             [
-                'title' => 'أفضل ممارسات تجهيز الأنابيب قبل اللصق',
-                'slug' => 'pipe-surface-preparation-best-practices',
-                'excerpt' => 'خطوات عملية لتجهيز السطح وضمان قوة الترابط ورفع كفاءة التركيب.',
-                'body' => 'يوضح هذا المقال أهمية التنظيف والتحضير واستخدام البرايمر المناسب قبل اللصق. كما يعرض أخطاء شائعة تؤثر على قوة الربط النهائي في مشاريع CPVC وPVC.',
+                'title' => 'أساسيات السلامة في الأعمال الكهربائية المنزلية',
+                'slug' => 'electrical-safety-best-practices',
+                'excerpt' => 'خطوات مهمة لرفع مستوى الأمان أثناء تنفيذ أو صيانة الأعمال الكهربائية في المنزل أو المنشأة.',
+                'body' => 'يعرض هذا المقال أهم ممارسات السلامة في الأعمال الكهربائية، مثل فحص الأحمال، والتأكد من العزل، والالتزام بالمقاسات الصحيحة، والاستعانة بفني مؤهل عند ظهور الأعطال أو الحاجة إلى تعديلات على الشبكة.',
                 'cover_image' => 'https://images.unsplash.com/photo-1581092918484-8313c7f0f0df?auto=format&fit=crop&w=1200&q=80',
                 'download_url' => 'https://example.com/articles/preparation.pdf',
-                'meta_title' => 'أفضل ممارسات تجهيز الأنابيب قبل اللصق',
-                'meta_description' => 'خطوات عملية لتجهيز السطح وضمان قوة الترابط.',
-                'meta_keywords' => 'تجهيز الأنابيب, برايمر, لاصق',
+                'meta_title' => 'أساسيات السلامة في الأعمال الكهربائية المنزلية',
+                'meta_description' => 'تعرف على أهم إرشادات السلامة عند تنفيذ أو صيانة الأعمال الكهربائية.',
+                'meta_keywords' => 'كهرباء, سلامة كهربائية, صيانة كهربائية, فني كهرباء',
                 'is_published' => true,
                 'published_at' => now()->subDays(7),
                 'sort_order' => 2,
             ],
             [
-                'title' => 'مقارنة بين FLOW 714 و FLOW 500 حسب الاستخدام',
-                'slug' => 'flow-714-vs-flow-500',
-                'excerpt' => 'مقارنة مبسطة بين المنتجين الأشهر حسب نوع المشروع والضغط الحراري.',
-                'body' => 'يستعرض المقال الفرق بين FLOW 714 وFLOW 500 من حيث اللزوجة، التطبيقات، زمن التشغيل، ومدى الملاءمة للمشاريع السكنية والتجارية والصناعية.',
+                'title' => 'كيف تختار عقد الصيانة المناسب لمنشأتك؟',
+                'slug' => 'how-to-choose-maintenance-contract',
+                'excerpt' => 'مقارنة عملية بين أنواع عقود الصيانة وما يناسب المباني السكنية والتجارية.',
+                'body' => 'يستعرض هذا المقال الفروقات بين عقود الصيانة الدورية والوقائية والتصحيحية، وكيف يساعد اختيار الخطة المناسبة في تقليل الأعطال ورفع كفاءة التشغيل وتحسين سرعة الاستجابة للمشكلات الفنية.',
                 'cover_image' => 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80',
                 'download_url' => 'https://example.com/articles/comparison.pdf',
-                'meta_title' => 'مقارنة بين FLOW 714 و FLOW 500',
-                'meta_description' => 'مقارنة مبسطة بين المنتجين حسب نوع المشروع والاستخدام.',
-                'meta_keywords' => 'FLOW 714, FLOW 500, مقارنة منتجات',
+                'meta_title' => 'كيف تختار عقد الصيانة المناسب لمنشأتك؟',
+                'meta_description' => 'دليل مبسط لاختيار عقد الصيانة الأنسب حسب طبيعة المبنى واحتياجات التشغيل.',
+                'meta_keywords' => 'عقد صيانة, صيانة دورية, صيانة وقائية, خدمات فنية',
                 'is_published' => true,
                 'published_at' => now()->subDays(3),
                 'sort_order' => 3,
@@ -391,7 +385,7 @@ class DatabaseSeeder extends Seeder
                 'client_name' => 'م. خالد الفيصل',
                 'client_title' => 'الرئيس التنفيذي',
                 'company_name' => 'شركة البناء المتقدمة',
-                'quote' => 'اعتمادنا على FLOW 714 في مشروعنا الأخير أثبت كفاءة عالية في تحمل الضغوط التشغيلية، وكانت جودة الترابط ممتازة.',
+                'quote' => 'الفريق كان منظمًا وسريع الاستجابة، وتم تنفيذ أعمال السباكة في المشروع بجودة عالية ومتابعة احترافية.',
                 'rating' => 5,
                 'is_active' => true,
                 'sort_order' => 1,
@@ -400,7 +394,7 @@ class DatabaseSeeder extends Seeder
                 'client_name' => 'فريق الصيانة',
                 'client_title' => 'إدارة التشغيل',
                 'company_name' => 'مصنع السخانات المركزية',
-                'quote' => 'سهولة التطبيق وسرعة التماسك في FLOW 500 ساعدتنا على تقليل وقت التركيب ورفع كفاءة التنفيذ.',
+                'quote' => 'خدمة الصيانة الكهربائية كانت دقيقة واحترافية، وتمت معالجة الأعطال بسرعة مع التزام واضح بالسلامة.',
                 'rating' => 5,
                 'is_active' => true,
                 'sort_order' => 2,
@@ -409,7 +403,7 @@ class DatabaseSeeder extends Seeder
                 'client_name' => 'م. سارة العلي',
                 'client_title' => 'مقاول مشاريع',
                 'company_name' => 'قطاع البنية التحتية',
-                'quote' => 'التعامل كان مهنيًا ومنتج P-70 قدم فارقًا واضحًا في تجهيز الأنابيب قبل اللصق.',
+                'quote' => 'وجدنا من شركة نفوذ المستقبل التزامًا ممتازًا في أعمال الصيانة الدورية، مع تقارير واضحة وسرعة في التنفيذ.',
                 'rating' => 5,
                 'is_active' => true,
                 'sort_order' => 3,
@@ -419,26 +413,26 @@ class DatabaseSeeder extends Seeder
         }
 
         $quote = QuoteRequest::query()->create([
-            'company_name' => 'شركة الدبعي التجارية',
+            'company_name' => 'شركة الدبعي للتطوير',
             'contact_person' => 'أحمد الدبعي',
             'email' => 'sales@example.com',
             'phone' => '0555555555',
-            'notes' => 'نحتاج عرض سعر لمشروع توريد في الرياض.',
+            'notes' => 'نحتاج عرض سعر لخدمات سباكة وكهرباء وصيانة لمبنى تجاري في الرياض.',
             'status' => 'new',
         ]);
 
         $quote->items()->createMany([
             [
-                'product_id' => Product::query()->where('sku', '714')->value('id'),
-                'product_name' => 'FLOW ARAIB 714',
+                'product_id' => Product::query()->where('sku', 'PLUMB-01')->value('id'),
+                'product_name' => 'Plumbing Installation',
                 'quantity' => 120,
-                'unit' => 'جالون',
+                'unit' => 'وحدة',
             ],
             [
-                'product_id' => Product::query()->where('sku', 'P70')->value('id'),
-                'product_name' => 'FLOW ARAIB P-70',
+                'product_id' => Product::query()->where('sku', 'MAINT-01')->value('id'),
+                'product_name' => 'Fault Detection & Repair',
                 'quantity' => 40,
-                'unit' => 'كرتون',
+                'unit' => 'زيارة',
             ],
         ]);
 
@@ -446,59 +440,59 @@ class DatabaseSeeder extends Seeder
             'name' => 'مؤسسة الخليج للمقاولات',
             'email' => 'info@gulf-contracting.test',
             'subject' => 'استفسار فني',
-            'message' => 'هل المنتج 714 مناسب لخطوط المياه الساخنة في المشاريع التجارية؟',
+            'message' => 'هل يمكنكم إرسال عرض لخدمات كشف الأعطال والصيانة الكهربائية لمبنى تجاري؟',
             'status' => 'new',
         ]);
         SiteSetting::query()->whereKey(1)->update([
             'site_name_translations' => ['ar' => 'شركة نفوذ المستقبل', 'en' => 'Nofouth Future Company'],
-            'site_tagline_translations' => ['ar' => 'حلول لواصق CPVC و PVC الصناعية', 'en' => 'Industrial CPVC and PVC adhesive solutions'],
+            'site_tagline_translations' => ['ar' => 'خدمات السباكة والكهرباء والصيانة الفنية', 'en' => 'Professional plumbing, electrical, and maintenance services'],
             'contact_address_translations' => ['ar' => 'الرياض - المملكة العربية السعودية', 'en' => 'Riyadh - Saudi Arabia'],
-            'vision_translations' => ['ar' => 'أن نكون الخيار الأول في حلول اللواصق الصناعية وإدارة المحتوى الفني للقطاع.', 'en' => 'To become the first choice in industrial adhesive solutions and technical content management.'],
-            'mission_translations' => ['ar' => 'تقديم منتجات موثوقة ومنصة رقمية ديناميكية تساعد العملاء على الوصول السريع للمعلومات وطلبات التسعير.', 'en' => 'To provide reliable products and a dynamic digital platform that helps clients access information and quote requests quickly.'],
-            'about_text_translations' => ['ar' => 'نحن شركة متخصصة في حلول اللواصق الصناعية وتم تحويل هذا الموقع إلى منصة Laravel ديناميكية كاملة.', 'en' => 'We are a company specialized in industrial adhesive solutions, and this website has been transformed into a fully dynamic Laravel platform.'],
+            'vision_translations' => ['ar' => 'أن نكون الخيار الأول في خدمات السباكة والكهرباء والصيانة الفنية للمشاريع السكنية والتجارية.', 'en' => 'To become the first choice for plumbing, electrical, and maintenance services for residential and commercial projects.'],
+            'mission_translations' => ['ar' => 'تقديم خدمات فنية موثوقة وسريعة تركز على السلامة والجودة والالتزام، مع تجربة تواصل واضحة واحترافية لعملائنا.', 'en' => 'To deliver reliable and responsive technical services built on safety, quality, and professional client communication.'],
+            'about_text_translations' => ['ar' => 'شركة نفوذ المستقبل متخصصة في خدمات السباكة والأعمال الكهربائية والصيانة العامة، ونوفر حلولاً عملية تناسب احتياجات المنازل والمنشآت التجارية.', 'en' => 'Nofouth Future Company specializes in plumbing, electrical, and general maintenance services for homes and commercial facilities.'],
             'footer_text_translations' => ['ar' => 'جميع الحقوق محفوظة - شركة نفوذ المستقبل', 'en' => 'All rights reserved - Nofouth Future Company'],
             'default_meta_title_translations' => ['ar' => 'شركة نفوذ المستقبل', 'en' => 'Nofouth Future Company'],
-            'default_meta_description_translations' => ['ar' => 'موقع ديناميكي لمنتجات اللواصق الصناعية والمقالات وطلبات التسعير.', 'en' => 'A dynamic website for industrial adhesives, articles, and quote requests.'],
-            'default_meta_keywords_translations' => ['ar' => 'CPVC, PVC, لواصق صناعية, مقالات فنية, طلب تسعيرة', 'en' => 'CPVC, PVC, industrial adhesives, technical articles, quote request'],
+            'default_meta_description_translations' => ['ar' => 'شركة نفوذ المستقبل لخدمات السباكة والكهرباء والصيانة الفنية للمنازل والمنشآت التجارية.', 'en' => 'Nofouth Future Company for plumbing, electrical, and maintenance services for homes and commercial facilities.'],
+            'default_meta_keywords_translations' => ['ar' => 'سباكة, كهرباء, صيانة, خدمات فنية, كشف أعطال, طلب تسعيرة', 'en' => 'plumbing, electrical services, maintenance, technical services, fault detection, quote request'],
         ]);
 
         HomeSection::query()->where('key', 'hero')->update([
-            'title_translations' => ['ar' => 'حلول CPVC الرائدة. قوة شركة نفوذ المستقبل', 'en' => 'Leading CPVC Solutions. Powered by Nofouth Future'],
-            'subtitle_translations' => ['ar' => 'نحوّل الموقع الثابت إلى منصة أعمال ديناميكية تعرض المنتجات والمقالات وآراء العملاء وطلبات التسعير.', 'en' => 'We turn a static website into a dynamic business platform for products, articles, testimonials, and quote requests.'],
+            'title_translations' => ['ar' => 'خدمات سباكة وكهرباء وصيانة باحترافية عالية', 'en' => 'Professional Plumbing, Electrical, and Maintenance Services'],
+            'subtitle_translations' => ['ar' => 'شركة نفوذ المستقبل تقدم حلولاً فنية موثوقة للمنازل والمنشآت التجارية مع سرعة استجابة وجودة تنفيذ.', 'en' => 'Nofouth Future Company delivers trusted technical solutions for homes and commercial facilities with responsive service and high-quality execution.'],
         ]);
 
         HomeSection::query()->where('page', 'about')->where('key', 'about-hero')->update([
             'title_translations' => ['ar' => 'رسالتنا ورؤيتنا', 'en' => 'Our Mission and Vision'],
-            'subtitle_translations' => ['ar' => 'نقدم حلولاً صناعية موثوقة مدعومة بخبرة فنية ومحتوى ديناميكي.', 'en' => 'We provide trusted industrial solutions backed by technical expertise and dynamic content.'],
+            'subtitle_translations' => ['ar' => 'نقدّم خدمات فنية موثوقة في السباكة والكهرباء والصيانة العامة بخبرة عملية وفريق مؤهل.', 'en' => 'We provide trusted plumbing, electrical, and general maintenance services backed by practical expertise and a qualified team.'],
         ]);
 
         Product::query()->where('sku', '714')->update([
-            'name_translations' => ['ar' => 'فلو عرايب 714', 'en' => 'FLOW ARAIB 714'],
-            'category_translations' => ['ar' => 'سي بي في سي', 'en' => 'CPVC'],
-            'tagline_translations' => ['ar' => 'لاصق CPVC شديد السماكة', 'en' => 'Heavy bodied CPVC cement'],
+            'name_translations' => ['ar' => 'خدمة تركيب السباكة', 'en' => 'Plumbing Installation'],
+            'category_translations' => ['ar' => 'السباكة', 'en' => 'Plumbing'],
+            'tagline_translations' => ['ar' => 'خدمات تركيب سباكة احترافية للمشاريع السكنية والتجارية', 'en' => 'Professional plumbing installation for residential and commercial projects'],
         ]);
 
         Product::query()->where('sku', '500')->update([
-            'name_translations' => ['ar' => 'فلو عرايب 500', 'en' => 'FLOW ARAIB 500'],
-            'category_translations' => ['ar' => 'بي في سي', 'en' => 'PVC'],
-            'tagline_translations' => ['ar' => 'لاصق PVC متوسط السماكة', 'en' => 'Medium bodied PVC cement'],
+            'name_translations' => ['ar' => 'خدمة التركيبات الكهربائية', 'en' => 'Electrical Installation'],
+            'category_translations' => ['ar' => 'الكهرباء', 'en' => 'Electrical'],
+            'tagline_translations' => ['ar' => 'تنفيذ الأعمال الكهربائية بأعلى معايير السلامة', 'en' => 'Electrical installation delivered to high safety standards'],
         ]);
-        Article::query()->where('slug', 'cpvc-adhesive-selection-guide')->update([
-            'title_translations' => ['ar' => 'دليل اختيار لاصق CPVC المناسب للمشاريع الحرارية', 'en' => 'Guide to Choosing the Right CPVC Cement for Hot Water Projects'],
-            'excerpt_translations' => ['ar' => 'مقال يشرح كيف تختار التركيبة المناسبة حسب الحرارة والضغط والقطر.', 'en' => 'An article explaining how to choose the right formula based on temperature, pressure, and diameter.'],
+        Article::query()->where('slug', 'professional-plumbing-service-guide')->update([
+            'title_translations' => ['ar' => 'متى تحتاج إلى فني سباكة محترف؟', 'en' => 'When Do You Need a Professional Plumber?'],
+            'excerpt_translations' => ['ar' => 'دليل عملي يساعدك على معرفة الحالات التي تتطلب تدخلاً فنيًا سريعًا في أعمال السباكة.', 'en' => 'A practical guide to recognizing when a plumbing issue requires professional help.'],
         ]);
 
-        Article::query()->where('slug', 'pipe-surface-preparation-best-practices')->update([
-            'title_translations' => ['ar' => 'أفضل ممارسات تجهيز الأنابيب قبل اللصق', 'en' => 'Best Practices for Pipe Surface Preparation Before Bonding'],
-            'excerpt_translations' => ['ar' => 'خطوات عملية لتجهيز السطح وضمان قوة الترابط ورفع كفاءة التركيب.', 'en' => 'Practical steps for preparing the surface and ensuring stronger bonding performance.'],
+        Article::query()->where('slug', 'electrical-safety-best-practices')->update([
+            'title_translations' => ['ar' => 'أساسيات السلامة في الأعمال الكهربائية المنزلية', 'en' => 'Essential Safety Practices for Home Electrical Work'],
+            'excerpt_translations' => ['ar' => 'خطوات مهمة لرفع مستوى الأمان أثناء تنفيذ أو صيانة الأعمال الكهربائية في المنزل أو المنشأة.', 'en' => 'Important steps to improve safety during electrical installation or maintenance work.'],
         ]);
 
         Testimonial::query()->where('sort_order', 1)->update([
-            'quote_translations' => ['ar' => 'اعتمادنا على FLOW 714 في مشروعنا الأخير أثبت كفاءة عالية في تحمل الضغوط التشغيلية، وكانت جودة الترابط ممتازة.', 'en' => 'Using FLOW 714 in our recent project proved highly reliable under operating pressure, with excellent bonding quality.'],
+            'quote_translations' => ['ar' => 'الفريق كان منظمًا وسريع الاستجابة، وتم تنفيذ أعمال السباكة في المشروع بجودة عالية ومتابعة احترافية.', 'en' => 'The team was organized and responsive, and the plumbing work was completed with excellent quality and professional follow-up.'],
         ]);
 
         Testimonial::query()->where('sort_order', 2)->update([
-            'quote_translations' => ['ar' => 'سهولة التطبيق وسرعة التماسك في FLOW 500 ساعدتنا على تقليل وقت التركيب ورفع كفاءة التنفيذ.', 'en' => 'The easy application and quick setting time of FLOW 500 helped us reduce installation time and improve execution efficiency.'],
+            'quote_translations' => ['ar' => 'خدمة الصيانة الكهربائية كانت دقيقة واحترافية، وتمت معالجة الأعطال بسرعة مع التزام واضح بالسلامة.', 'en' => 'The electrical maintenance service was precise and professional, and faults were handled quickly with clear attention to safety.'],
         ]);
     }
 }

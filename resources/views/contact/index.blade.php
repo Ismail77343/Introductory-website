@@ -12,7 +12,7 @@
                 <div class="mt-6 space-y-3 text-slate-300">
                     <p>{{ $siteSettings?->translate('contact_address') ?? 'Riyadh - Saudi Arabia' }}</p>
                     <p>{{ $siteSettings->contact_phone ?? '+966 577252986' }}</p>
-                    <p>{{ $siteSettings->contact_email ?? 'info@araib.com' }}</p>
+                    <p>{{ $siteSettings->contact_email ?? 'info@nofouthfuture.com' }}</p>
                     @if ($siteSettings?->whatsapp_number)
                         <p>WhatsApp: {{ $siteSettings->whatsapp_number }}</p>
                     @endif

@@ -24,7 +24,7 @@ class AdminProductController extends Controller
         return view('admin.products.form', [
             'product' => new Product([
                 'accent_color' => 'orange',
-                'category' => 'CPVC',
+                'category' => 'Plumbing',
                 'is_active' => true,
                 'is_featured' => false,
             ]),
@@ -36,7 +36,7 @@ class AdminProductController extends Controller
     {
         Product::query()->create($this->validatedData($request));
 
-        return redirect()->route('admin.products.index')->with('success', 'تمت إضافة المنتج بنجاح.');
+        return redirect()->route('admin.products.index')->with('success', 'تمت إضافة الخدمة بنجاح.');
     }
 
     public function edit(Product $product)
@@ -51,14 +51,14 @@ class AdminProductController extends Controller
     {
         $product->update($this->validatedData($request, $product));
 
-        return redirect()->route('admin.products.index')->with('success', 'تم تحديث المنتج بنجاح.');
+        return redirect()->route('admin.products.index')->with('success', 'تم تحديث الخدمة بنجاح.');
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
 
-        return redirect()->route('admin.products.index')->with('success', 'تم حذف المنتج بنجاح.');
+        return redirect()->route('admin.products.index')->with('success', 'تم حذف الخدمة بنجاح.');
     }
 
     protected function validatedData(Request $request, ?Product $product = null): array
