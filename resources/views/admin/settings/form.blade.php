@@ -55,18 +55,18 @@
                 </div>
 
                 <div class="md:col-span-2 rounded-[1.75rem] border border-white/10 bg-slate-950/60 p-5">
-                    <h2 class="text-2xl font-black text-amber-300">{{ __('admin.settings_title') }} - Theme</h2>
-                    <p class="mt-2 text-sm text-slate-300">اختر ألوان الهوية ليتم استخدامها في التدرجات واللمسات داخل الثيم.</p>
+                    <h2 class="text-2xl font-black text-amber-300">{{ __('admin.theme_colors_title') }}</h2>
+                    <p class="mt-2 text-sm text-slate-300">{{ __('admin.theme_colors_help') }}</p>
                     <div class="mt-5 grid gap-5 md:grid-cols-2">
                         <div>
-                            <label class="mb-2 block text-sm text-slate-300">Primary Color</label>
+                            <label class="mb-2 block text-sm text-slate-300">{{ __('admin.theme_primary_color') }}</label>
                             <div class="flex gap-3">
                                 <input type="color" value="{{ $themePrimaryColor }}" class="h-12 w-16 cursor-pointer rounded-2xl border border-white/10 bg-slate-900 p-2" data-color-sync="theme_primary_color_picker">
                                 <input type="text" name="theme_primary_color" value="{{ $themePrimaryColor }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white" placeholder="#fbbf24" data-color-target="theme_primary_color_picker">
                             </div>
                         </div>
                         <div>
-                            <label class="mb-2 block text-sm text-slate-300">Secondary Color</label>
+                            <label class="mb-2 block text-sm text-slate-300">{{ __('admin.theme_secondary_color') }}</label>
                             <div class="flex gap-3">
                                 <input type="color" value="{{ $themeSecondaryColor }}" class="h-12 w-16 cursor-pointer rounded-2xl border border-white/10 bg-slate-900 p-2" data-color-sync="theme_secondary_color_picker">
                                 <input type="text" name="theme_secondary_color" value="{{ $themeSecondaryColor }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white" placeholder="#38bdf8" data-color-target="theme_secondary_color_picker">

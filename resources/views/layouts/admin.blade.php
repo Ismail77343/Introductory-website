@@ -46,6 +46,18 @@
         html[data-theme="light"] .bg-slate-950\/75 { background-color: rgba(248,250,252,.84) !important; }
         html[data-theme="light"] .bg-slate-950\/70 { background-color: rgba(248,250,252,.80) !important; }
         html[data-theme="light"] .bg-slate-950\/60 { background-color: rgba(248,250,252,.78) !important; }
+        /* Forms use bg-slate-950/50 heavily — was missing, so cards stayed dark grey in Light. */
+        html[data-theme="light"] .bg-slate-950\/50 {
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,.94),
+                color-mix(in oklab, var(--brand-b) 6%, white),
+                rgba(248,250,252,.88)
+            ) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 16px 42px rgba(2, 6, 23, .09);
+            border-color: rgba(15,23,42,.08) !important;
+        }
         html[data-theme="light"] .text-white { color: #0f172a !important; }
         html[data-theme="light"] .text-slate-100 { color: rgba(15,23,42,.88) !important; }
         html[data-theme="light"] .text-slate-200 { color: rgba(15,23,42,.80) !important; }
@@ -86,7 +98,7 @@
         html[data-theme="light"] aside .text-slate-400 { color: rgba(15,23,42,.58) !important; }
         html[data-theme="light"] aside .text-slate-500 { color: rgba(15,23,42,.48) !important; }
         html[data-theme="light"] aside a:hover { background-color: rgba(15,23,42,.05) !important; }
-        html[data-theme="light"] aside a.bg-amber-400 { box-shadow: 0 18px 40px rgba(251,191,36,.22) !important; }
+        html[data-theme="light"] aside a.bg-amber-400 { box-shadow: 0 18px 40px color-mix(in oklab, var(--brand-a) 28%, transparent) !important; }
 
         html[data-theme="light"] header.bg-slate-900\/70 { background-color: rgba(255,255,255,.82) !important; }
         html[data-theme="light"] .admin-hero {
