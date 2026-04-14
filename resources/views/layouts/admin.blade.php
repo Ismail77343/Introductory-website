@@ -42,6 +42,10 @@
         html[data-theme="light"] .bg-slate-900 { background-color: #ffffff !important; }
         html[data-theme="light"] .bg-slate-900\/70 { background-color: rgba(255,255,255,.86) !important; }
         html[data-theme="light"] .bg-slate-900\/95 { background-color: rgba(255,255,255,.92) !important; }
+        html[data-theme="light"] .bg-slate-950\/80 { background-color: rgba(248,250,252,.86) !important; }
+        html[data-theme="light"] .bg-slate-950\/75 { background-color: rgba(248,250,252,.84) !important; }
+        html[data-theme="light"] .bg-slate-950\/70 { background-color: rgba(248,250,252,.80) !important; }
+        html[data-theme="light"] .bg-slate-950\/60 { background-color: rgba(248,250,252,.78) !important; }
         html[data-theme="light"] .text-white { color: #0f172a !important; }
         html[data-theme="light"] .text-slate-100 { color: rgba(15,23,42,.88) !important; }
         html[data-theme="light"] .text-slate-200 { color: rgba(15,23,42,.80) !important; }
@@ -49,8 +53,24 @@
         html[data-theme="light"] .text-slate-400 { color: rgba(15,23,42,.62) !important; }
         html[data-theme="light"] .text-slate-500 { color: rgba(15,23,42,.52) !important; }
         html[data-theme="light"] .border-white\/10 { border-color: rgba(15,23,42,.10) !important; }
-        html[data-theme="light"] .bg-white\/5 { background-color: rgba(255,255,255,.62) !important; }
-        html[data-theme="light"] .bg-white\/10 { background-color: rgba(255,255,255,.74) !important; }
+        html[data-theme="light"] .bg-white\/5 {
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,.86),
+                rgba(255,255,255,.70)
+            ) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 16px 44px rgba(2, 6, 23, .10);
+        }
+        html[data-theme="light"] .bg-white\/10 {
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,.92),
+                rgba(255,255,255,.76)
+            ) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 16px 44px rgba(2, 6, 23, .10);
+        }
         html[data-theme="light"] .hover\:bg-white\/5:hover { background-color: rgba(15,23,42,.05) !important; }
         html[data-theme="light"] .hover\:text-white:hover { color: #0b1220 !important; }
 
@@ -73,6 +93,9 @@
             background: radial-gradient(circle at 10% 20%, color-mix(in oklab, var(--brand-a) 32%, transparent), transparent 40%),
                         radial-gradient(circle at 90% 10%, color-mix(in oklab, var(--brand-b) 18%, transparent), transparent 38%),
                         linear-gradient(135deg, rgba(255,255,255,.92), rgba(248,250,252,.74)) !important;
+            border-color: rgba(15,23,42,.10) !important;
+            box-shadow: 0 20px 55px rgba(2, 6, 23, .12);
+            backdrop-filter: blur(10px);
         }
 
         html[data-theme="light"] .bg-rose-500\/20 { background-color: rgba(244,63,94,.12) !important; }
