@@ -44,17 +44,37 @@
         html[data-theme="light"] .bg-slate-900\/95 { background-color: rgba(255,255,255,.92) !important; }
         html[data-theme="light"] .bg-slate-950\/80 { background-color: rgba(248,250,252,.86) !important; }
         html[data-theme="light"] .bg-slate-950\/75 { background-color: rgba(248,250,252,.84) !important; }
+        /* Full-screen modal backdrops reuse bg-slate-950/75 — without this, Light scrim becomes nearly white and modals look "broken". */
+        html[data-theme="light"] .fixed.inset-0.z-50.bg-slate-950\/75 {
+            background-color: rgba(15, 23, 42, 0.58) !important;
+            backdrop-filter: blur(8px);
+        }
+        html[data-theme="light"] .fixed.inset-0.z-\[90\].bg-slate-950\/80 {
+            background-color: rgba(15, 23, 42, 0.58) !important;
+            backdrop-filter: blur(8px);
+        }
+        html[data-theme="light"] #logo-modal,
+        html[data-theme="light"] #default-article-image-modal,
+        html[data-theme="light"] #image-modal,
+        html[data-theme="light"] #tds-modal,
+        html[data-theme="light"] #msds-modal {
+            background-color: rgba(15, 23, 42, 0.58) !important;
+            backdrop-filter: blur(8px);
+        }
+        html[data-theme="light"] .fixed.inset-0.z-50[data-media-modal] {
+            background-color: rgba(15, 23, 42, 0.58) !important;
+            backdrop-filter: blur(8px);
+        }
         html[data-theme="light"] .bg-slate-950\/70 { background-color: rgba(248,250,252,.80) !important; }
         html[data-theme="light"] .bg-slate-950\/60 { background-color: rgba(248,250,252,.78) !important; }
         /* Forms use bg-slate-950/50 heavily — was missing, so cards stayed dark grey in Light. */
         html[data-theme="light"] .bg-slate-950\/50 {
             background: linear-gradient(
                 135deg,
-                rgba(255,255,255,.94),
-                color-mix(in oklab, var(--brand-b) 6%, white),
-                rgba(248,250,252,.88)
+                rgba(255,255,255,.98),
+                color-mix(in oklab, var(--brand-b) 5%, white),
+                rgba(248,250,252,.95)
             ) !important;
-            backdrop-filter: blur(12px);
             box-shadow: 0 16px 42px rgba(2, 6, 23, .09);
             border-color: rgba(15,23,42,.08) !important;
         }
@@ -68,20 +88,20 @@
         html[data-theme="light"] .bg-white\/5 {
             background: linear-gradient(
                 135deg,
-                rgba(255,255,255,.86),
-                rgba(255,255,255,.70)
+                rgba(255,255,255,.98),
+                rgba(255,255,255,.94)
             ) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 16px 44px rgba(2, 6, 23, .10);
+            box-shadow: 0 16px 44px rgba(2, 6, 23, .08);
+            border-color: rgba(15,23,42,.08) !important;
         }
         html[data-theme="light"] .bg-white\/10 {
             background: linear-gradient(
                 135deg,
-                rgba(255,255,255,.92),
-                rgba(255,255,255,.76)
+                rgba(255,255,255,.99),
+                rgba(255,255,255,.96)
             ) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 16px 44px rgba(2, 6, 23, .10);
+            box-shadow: 0 16px 44px rgba(2, 6, 23, .08);
+            border-color: rgba(15,23,42,.08) !important;
         }
         html[data-theme="light"] .hover\:bg-white\/5:hover { background-color: rgba(15,23,42,.05) !important; }
         html[data-theme="light"] .hover\:text-white:hover { color: #0b1220 !important; }
@@ -100,14 +120,24 @@
         html[data-theme="light"] aside a:hover { background-color: rgba(15,23,42,.05) !important; }
         html[data-theme="light"] aside a.bg-amber-400 { box-shadow: 0 18px 40px color-mix(in oklab, var(--brand-a) 28%, transparent) !important; }
 
-        html[data-theme="light"] header.bg-slate-900\/70 { background-color: rgba(255,255,255,.82) !important; }
+        html[data-theme="light"] header.bg-slate-900\/70 {
+            background-color: rgba(255,255,255,.95) !important;
+            backdrop-filter: none !important;
+        }
         html[data-theme="light"] .admin-hero {
             background: radial-gradient(circle at 10% 20%, color-mix(in oklab, var(--brand-a) 32%, transparent), transparent 40%),
                         radial-gradient(circle at 90% 10%, color-mix(in oklab, var(--brand-b) 18%, transparent), transparent 38%),
                         linear-gradient(135deg, rgba(255,255,255,.92), rgba(248,250,252,.74)) !important;
             border-color: rgba(15,23,42,.10) !important;
             box-shadow: 0 20px 55px rgba(2, 6, 23, .12);
-            backdrop-filter: blur(10px);
+        }
+
+        /* Solid light surface behind page content (avoids dark blur through glass cards). */
+        html[data-theme="light"] .admin-shell {
+            background-color: #f8fafc !important;
+        }
+        html[data-theme="light"] main {
+            background-color: transparent !important;
         }
 
         html[data-theme="light"] .bg-rose-500\/20 { background-color: rgba(244,63,94,.12) !important; }
@@ -200,7 +230,7 @@
             </div>
         </aside>
 
-        <div class="flex min-h-screen flex-1 flex-col">
+        <div class="admin-shell flex min-h-screen flex-1 flex-col">
             <header class="border-b border-white/10 bg-slate-900/70 px-4 py-4 backdrop-blur sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between gap-4">
                     <div>
