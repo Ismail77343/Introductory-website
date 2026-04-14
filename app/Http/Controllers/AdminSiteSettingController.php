@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 class AdminSiteSettingController extends Controller
 {
     use InteractsWithTranslatedFields;
+    protected const HEX_COLOR_RULE = '/^#([0-9a-fA-F]{6})$/';
 
     public function edit()
     {
@@ -41,6 +42,8 @@ class AdminSiteSettingController extends Controller
             'default_meta_title' => ['nullable', 'string', 'max:255'],
             'default_meta_description' => ['nullable', 'string'],
             'default_meta_keywords' => ['nullable', 'string'],
+            'theme_primary_color' => ['nullable', 'string', 'regex:'.self::HEX_COLOR_RULE],
+            'theme_secondary_color' => ['nullable', 'string', 'regex:'.self::HEX_COLOR_RULE],
             'translations' => ['nullable', 'array'],
         ]);
 

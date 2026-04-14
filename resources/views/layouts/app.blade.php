@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ $currentLanguage?->direction ?? 'rtl' }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ $currentLanguage?->direction ?? 'rtl' }}" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #fbbf24; --ink: #020617; --panel: rgba(15, 23, 42, .72); --line: rgba(255,255,255,.1); }
+        :root {
+            --brand-a: {{ $siteSettings?->theme_primary_color ?: '#fbbf24' }};
+            --brand-b: {{ $siteSettings?->theme_secondary_color ?: '#38bdf8' }};
+            --accent: var(--brand-a);
+            --ink: #020617;
+            --panel: rgba(15, 23, 42, .72);
+            --line: rgba(255,255,255,.1);
+        }
         body { font-family: 'Cairo', sans-serif; }
         .required-mark { margin-inline-start: .35rem; color: #f87171; font-weight: 900; }
         .reveal { opacity: 0; transform: translateY(32px) scale(.98); transition: opacity .85s ease, transform .85s ease; }
@@ -30,8 +37,10 @@
         .float-card { transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease; }
         .float-card:hover { transform: translateY(-10px); box-shadow: 0 24px 50px rgba(2, 6, 23, .34); border-color: rgba(251,191,36,.28); }
         .glass-card { border: 1px solid var(--line); background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)); backdrop-filter: blur(12px); border-radius: 2rem; }
+        a, button, input, select, textarea { transition: background-color .22s ease, color .22s ease, border-color .22s ease, box-shadow .22s ease, transform .22s ease; }
+        :where(a,button,input,select,textarea):focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-a) 28%, transparent); }
         .section-heading { position: relative; display: inline-block; padding-bottom: .75rem; }
-        .section-heading::after { content: ""; position: absolute; inset-inline-start: 0; bottom: 0; width: 6rem; height: 4px; border-radius: 999px; background: linear-gradient(90deg, rgba(251,191,36,1), rgba(251,191,36,.15)); }
+        .section-heading::after { content: ""; position: absolute; inset-inline-start: 0; bottom: 0; width: 6rem; height: 4px; border-radius: 999px; background: linear-gradient(90deg, var(--brand-a), color-mix(in oklab, var(--brand-a) 10%, transparent)); }
         .animated-bg { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle at 15% 20%, rgba(251,191,36,.14), transparent 22%), radial-gradient(circle at 85% 10%, rgba(56,189,248,.12), transparent 22%), radial-gradient(circle at 50% 80%, rgba(251,191,36,.08), transparent 18%), linear-gradient(155deg, #020617, #0f172a 55%, #111827); }
         .animated-bg::after { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(circle at center, black 35%, transparent 85%); opacity: .25; }
         .hero-orb { position: absolute; border-radius: 999px; filter: blur(50px); pointer-events: none; animation: pulseOrb 8s ease-in-out infinite; }
@@ -40,6 +49,131 @@
         @keyframes pulseOrb { 0%,100% { transform: translate3d(0,0,0) scale(1);} 50% { transform: translate3d(0,-18px,0) scale(1.06);} }
         @keyframes navSlide { from { opacity: 0; transform: translateY(-16px);} to { opacity: 1; transform: translateY(0);} }
         .nav-enter { animation: navSlide .7s ease forwards; }
+
+        /* Light theme (Dark stays exactly as-is). */
+        html[data-theme="light"] body { background-color: #f8fafc !important; color: #0f172a !important; }
+        html[data-theme="light"] .animated-bg {
+            background: radial-gradient(circle at 12% 18%, rgba(251,191,36,.16), transparent 26%),
+                        radial-gradient(circle at 88% 12%, rgba(56,189,248,.12), transparent 26%),
+                        radial-gradient(circle at 50% 85%, rgba(167,139,250,.10), transparent 22%),
+                        linear-gradient(180deg, #ffffff, #f8fafc 55%, #f1f5f9);
+        }
+        html[data-theme="light"] .animated-bg::after {
+            background-image: linear-gradient(rgba(15,23,42,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,.05) 1px, transparent 1px);
+            opacity: .55;
+        }
+        html[data-theme="light"] .hero-orb.one { background: color-mix(in oklab, var(--brand-a) 28%, transparent); filter: blur(56px); }
+        html[data-theme="light"] .hero-orb.two { background: color-mix(in oklab, var(--brand-b) 20%, transparent); filter: blur(56px); }
+
+        html[data-theme="light"] .glass-card {
+            border-color: rgba(15,23,42,.10) !important;
+            background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.58)) !important;
+        }
+        html[data-theme="light"] .float-card:hover { box-shadow: 0 24px 56px rgba(2, 6, 23, .14); border-color: rgba(251,191,36,.30); }
+
+        html[data-theme="light"] .float-card {
+            border-color: rgba(15,23,42,.10) !important;
+            background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)) !important;
+            box-shadow: 0 18px 40px rgba(2, 6, 23, .10);
+        }
+
+        /* Hero banner tuning for Light (keep Dark unchanged). */
+        html[data-theme="light"] .hero-banner { border-color: rgba(15,23,42,.08) !important; }
+        html[data-theme="light"] .hero-banner__overlay {
+            background:
+                radial-gradient(circle at 14% 18%, color-mix(in oklab, var(--brand-a) 18%, transparent), transparent 48%),
+                radial-gradient(circle at 90% 12%, color-mix(in oklab, var(--brand-b) 16%, transparent), transparent 52%),
+                linear-gradient(145deg, rgba(255,255,255,.92), rgba(248,250,252,.74) 55%, rgba(241,245,249,.86)) !important;
+            backdrop-filter: blur(10px);
+        }
+        html[data-theme="light"] .hero-banner__media {
+            opacity: .42 !important;
+            filter: saturate(1.08) contrast(1.05);
+        }
+
+        /* Tailwind utility overrides used across public pages. */
+        html[data-theme="light"] .bg-slate-950 { background-color: #f8fafc !important; }
+        html[data-theme="light"] .bg-slate-950\/80 { background-color: rgba(248,250,252,.80) !important; }
+        html[data-theme="light"] .bg-slate-950\/70 { background-color: rgba(248,250,252,.72) !important; }
+        html[data-theme="light"] .bg-slate-950\/30 { background-color: rgba(241,245,249,.92) !important; }
+        html[data-theme="light"] .bg-slate-950\/10 { background-color: rgba(241,245,249,.82) !important; }
+        html[data-theme="light"] .bg-slate-900\/70 { background-color: rgba(255,255,255,.86) !important; }
+        html[data-theme="light"] .bg-slate-900\/35 { background-color: rgba(255,255,255,.72) !important; }
+        html[data-theme="light"] .bg-slate-900\/50 { background-color: rgba(255,255,255,.78) !important; }
+        html[data-theme="light"] .bg-slate-900\/95 { background-color: rgba(255,255,255,.92) !important; }
+        html[data-theme="light"] .bg-slate-900 { background-color: #ffffff !important; }
+
+        html[data-theme="light"] .text-white { color: #0f172a !important; }
+        html[data-theme="light"] .text-slate-200 { color: rgba(15,23,42,.82) !important; }
+        html[data-theme="light"] .text-slate-300 { color: rgba(15,23,42,.74) !important; }
+        html[data-theme="light"] .text-slate-400 { color: rgba(15,23,42,.62) !important; }
+        html[data-theme="light"] .text-slate-100 { color: rgba(15,23,42,.88) !important; }
+
+        html[data-theme="light"] .border-white\/10 { border-color: rgba(15,23,42,.10) !important; }
+        html[data-theme="light"] .border-white\/15 { border-color: rgba(15,23,42,.16) !important; }
+        html[data-theme="light"] .border-white\/5 { border-color: rgba(15,23,42,.06) !important; }
+
+        html[data-theme="light"] .bg-white\/5 { background-color: rgba(255,255,255,.55) !important; }
+        html[data-theme="light"] .bg-white\/10 { background-color: rgba(255,255,255,.70) !important; }
+        html[data-theme="light"] .hover\:bg-white\/5:hover { background-color: rgba(15,23,42,.05) !important; }
+        html[data-theme="light"] .hover\:text-white:hover { color: #0b1220 !important; }
+
+        /* Make amber accents readable in Light. */
+        html[data-theme="light"] .text-amber-200 { color: rgba(146,64,14,.92) !important; }
+        html[data-theme="light"] .text-amber-300 { color: rgba(146,64,14,.92) !important; }
+        html[data-theme="light"] .text-amber-500 { color: rgba(146,64,14,.95) !important; }
+        html[data-theme="light"] .bg-amber-400\/10 { background-color: color-mix(in oklab, var(--brand-a) 20%, transparent) !important; }
+        html[data-theme="light"] .border-amber-400\/25 { border-color: color-mix(in oklab, var(--brand-a) 45%, transparent) !important; }
+        html[data-theme="light"] .border-amber-400\/30 { border-color: color-mix(in oklab, var(--brand-a) 52%, transparent) !important; }
+
+        /* Forms + destructive actions in Light. */
+        html[data-theme="light"] input,
+        html[data-theme="light"] select,
+        html[data-theme="light"] textarea {
+            background-color: rgba(255,255,255,.92) !important;
+            border-color: rgba(15,23,42,.12) !important;
+            color: #0f172a !important;
+            box-shadow: 0 10px 26px rgba(2, 6, 23, .06);
+        }
+        html[data-theme="light"] select { color-scheme: light; }
+        html[data-theme="light"] input::placeholder,
+        html[data-theme="light"] textarea::placeholder { color: rgba(15,23,42,.45); }
+        html[data-theme="light"] input:focus,
+        html[data-theme="light"] select:focus,
+        html[data-theme="light"] textarea:focus {
+            outline: none;
+            border-color: color-mix(in oklab, var(--brand-a) 70%, white) !important;
+            box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-a) 22%, transparent), 0 14px 28px rgba(2, 6, 23, .08);
+        }
+
+        html[data-theme="light"] .bg-rose-500\/20 { background-color: rgba(244,63,94,.12) !important; }
+        html[data-theme="light"] .text-rose-200 { color: rgb(190,18,60) !important; }
+        html[data-theme="light"] .border-rose-500\/30 { border-color: rgba(244,63,94,.26) !important; }
+        html[data-theme="light"] .bg-rose-500\/10 { background-color: rgba(244,63,94,.08) !important; }
+
+        /* "Cracked glass" effect over hero overlays in Light (animated). */
+        html[data-theme="light"] .hero-banner__overlay { position: absolute; }
+        html[data-theme="light"] .hero-banner__overlay::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: .38;
+            background-image:
+                repeating-linear-gradient(115deg, rgba(255,255,255,.0) 0 18px, rgba(15,23,42,.12) 18px 19px, rgba(255,255,255,0) 19px 42px),
+                repeating-linear-gradient(12deg, rgba(255,255,255,.0) 0 22px, rgba(15,23,42,.10) 22px 23px, rgba(255,255,255,0) 23px 46px),
+                radial-gradient(circle at 18% 22%, color-mix(in oklab, var(--brand-a) 22%, transparent), transparent 55%),
+                radial-gradient(circle at 86% 18%, color-mix(in oklab, var(--brand-b) 18%, transparent), transparent 58%);
+            background-size: 520px 520px, 640px 640px, auto, auto;
+            background-position: 0 0, 0 0, center, center;
+            mix-blend-mode: multiply;
+            filter: blur(.15px);
+            animation: crackDrift 12s ease-in-out infinite;
+        }
+        @keyframes crackDrift {
+            0%, 100% { background-position: 0 0, 0 0, center, center; opacity: .32; }
+            50% { background-position: 120px -80px, -90px 140px, center, center; opacity: .42; }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-white">
@@ -82,6 +216,17 @@
             </nav>
 
             <div class="flex items-center gap-3">
+                <button type="button" class="group inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-bold text-slate-300 transition hover:text-white" data-theme-toggle aria-label="Toggle theme">
+                    <span class="hidden sm:inline" data-theme-label>Dark</span>
+                    <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-slate-950/60 transition group-hover:border-amber-300/40" aria-hidden="true">
+                        <svg data-theme-icon-moon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-amber-200">
+                            <path d="M21.752 15.002A9.718 9.718 0 0 1 12.01 22C6.486 22 2 17.514 2 11.99A9.718 9.718 0 0 1 8.998 2.248a.75.75 0 0 1 .87.87A8.218 8.218 0 0 0 19.88 14.132a.75.75 0 0 1 .872.87Z"/>
+                        </svg>
+                        <svg data-theme-icon-sun xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="hidden h-5 w-5 text-amber-500">
+                            <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V3A.75.75 0 0 1 12 2.25Zm0 16.5a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75ZM4.72 4.72a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 1 1-1.06 1.06L4.72 5.78a.75.75 0 0 1 0-1.06Zm12.44 12.44a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 1 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 0-1.06ZM2.25 12a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1-.75-.75Zm16.5 0a.75.75 0 0 1 .75-.75H21a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM4.72 19.28a.75.75 0 0 1 0-1.06l1.06-1.06a.75.75 0 1 1 1.06 1.06l-1.06 1.06a.75.75 0 0 1-1.06 0Zm12.44-12.44a.75.75 0 0 1 0-1.06l1.06-1.06a.75.75 0 1 1 1.06 1.06l-1.06 1.06a.75.75 0 0 1-1.06 0ZM12 6.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                </button>
                 @if ($activeLanguages->isNotEmpty())
                     <div class="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-2 py-2">
                         @foreach ($activeLanguages as $language)
@@ -151,6 +296,32 @@
     </footer>
 
     <script>
+        const themeStorageKey = 'nofouth_theme';
+        const root = document.documentElement;
+
+        const applyTheme = (theme) => {
+            const value = theme === 'light' ? 'light' : 'dark';
+            root.setAttribute('data-theme', value);
+            const label = document.querySelector('[data-theme-label]');
+            const moon = document.querySelector('[data-theme-icon-moon]');
+            const sun = document.querySelector('[data-theme-icon-sun]');
+            if (label) label.textContent = value === 'light' ? 'Light' : 'Dark';
+            if (moon) moon.classList.toggle('hidden', value === 'light');
+            if (sun) sun.classList.toggle('hidden', value !== 'light');
+        };
+
+        const savedTheme = localStorage.getItem(themeStorageKey);
+        applyTheme(savedTheme || 'dark');
+
+        document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const current = root.getAttribute('data-theme') || 'dark';
+                const next = current === 'light' ? 'dark' : 'light';
+                localStorage.setItem(themeStorageKey, next);
+                applyTheme(next);
+            });
+        });
+
         document.querySelectorAll('form [required]').forEach((field) => {
             const wrapper = field.closest('div, label');
             const label = wrapper?.querySelector('label');

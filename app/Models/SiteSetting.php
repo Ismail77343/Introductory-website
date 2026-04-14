@@ -40,6 +40,8 @@ class SiteSetting extends Model
         'default_meta_description_translations',
         'default_meta_keywords',
         'default_meta_keywords_translations',
+        'theme_primary_color',
+        'theme_secondary_color',
     ];
 
     protected function casts(): array

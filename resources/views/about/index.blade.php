@@ -6,14 +6,14 @@
         $contentSections = $sections->reject(fn ($section) => $heroSection && $section->id === $heroSection->id)->values();
     @endphp
 
-    <section class="relative overflow-hidden border-b border-white/10">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,191,36,.22),transparent_30%),linear-gradient(135deg,rgba(15,23,42,.96),rgba(30,41,59,.9))]"></div>
+    <section class="hero-banner relative overflow-hidden border-b border-white/10">
+        <div class="hero-banner__overlay absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,191,36,.22),transparent_30%),linear-gradient(135deg,rgba(15,23,42,.96),rgba(30,41,59,.9))]"></div>
         @if ($heroSection?->items->first())
             @php
                 $heroMedia = $heroSection->items->first()->image_path ? asset($heroSection->items->first()->image_path) : $heroSection->items->first()->image_url;
             @endphp
             @if ($heroMedia)
-                <img src="{{ $heroMedia }}" alt="{{ $heroSection->translate('title') }}" class="absolute inset-0 h-full w-full object-cover opacity-15">
+                <img src="{{ $heroMedia }}" alt="{{ $heroSection->translate('title') }}" class="hero-banner__media absolute inset-0 h-full w-full object-cover opacity-15">
             @endif
         @endif
 
@@ -70,7 +70,7 @@
     </section>
 
     @foreach ($contentSections as $section)
-        <section id="{{ $section->anchor ?: 'about-'.$section->id }}" class="border-b border-white/5 {{ $loop->odd ? 'bg-white/[0.03]' : '' }}">
+        <section id="{{ $section->anchor ?: 'about-'.$section->id }}" class="border-b border-white/5 {{ $loop->odd ? 'bg-slate-900/35' : 'bg-slate-950/10' }}">
             <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="reveal mb-10 max-w-3xl">
                     <h2 class="section-heading text-4xl font-black text-white">{{ $section->translate('title') }}</h2>

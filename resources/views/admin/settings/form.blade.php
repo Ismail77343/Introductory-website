@@ -8,6 +8,8 @@
         $defaultArticleImageUrl = old('default_article_image_url', $settings->default_article_image_url);
         $logoPreview = $logoPath ? asset($logoPath) : ($logoUrl ?: null);
         $defaultArticlePreview = $defaultArticleImagePath ? asset($defaultArticleImagePath) : ($defaultArticleImageUrl ?: null);
+        $themePrimaryColor = old('theme_primary_color', $settings->theme_primary_color ?: '#fbbf24');
+        $themeSecondaryColor = old('theme_secondary_color', $settings->theme_secondary_color ?: '#38bdf8');
     @endphp
 
     <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
@@ -50,6 +52,27 @@
                         </div>
                         <button type="button" data-modal-target="default-article-image-modal" class="mt-4 w-full rounded-2xl bg-white/10 px-4 py-3 font-bold text-white">{{ __('admin.manage_default_article_image') }}</button>
                     </article>
+                </div>
+
+                <div class="md:col-span-2 rounded-[1.75rem] border border-white/10 bg-slate-950/60 p-5">
+                    <h2 class="text-2xl font-black text-amber-300">{{ __('admin.settings_title') }} - Theme</h2>
+                    <p class="mt-2 text-sm text-slate-300">اختر ألوان الهوية ليتم استخدامها في التدرجات واللمسات داخل الثيم.</p>
+                    <div class="mt-5 grid gap-5 md:grid-cols-2">
+                        <div>
+                            <label class="mb-2 block text-sm text-slate-300">Primary Color</label>
+                            <div class="flex gap-3">
+                                <input type="color" value="{{ $themePrimaryColor }}" class="h-12 w-16 cursor-pointer rounded-2xl border border-white/10 bg-slate-900 p-2" data-color-sync="theme_primary_color_picker">
+                                <input type="text" name="theme_primary_color" value="{{ $themePrimaryColor }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white" placeholder="#fbbf24" data-color-target="theme_primary_color_picker">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="mb-2 block text-sm text-slate-300">Secondary Color</label>
+                            <div class="flex gap-3">
+                                <input type="color" value="{{ $themeSecondaryColor }}" class="h-12 w-16 cursor-pointer rounded-2xl border border-white/10 bg-slate-900 p-2" data-color-sync="theme_secondary_color_picker">
+                                <input type="text" name="theme_secondary_color" value="{{ $themeSecondaryColor }}" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white" placeholder="#38bdf8" data-color-target="theme_secondary_color_picker">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <input type="hidden" name="logo_path" value="{{ $logoPath }}">
@@ -110,6 +133,23 @@
     </section>
 
     <script>
+        document.querySelectorAll('[data-color-sync]').forEach((picker) => {
+            picker.addEventListener('input', () => {
+                const key = picker.dataset.colorSync;
+                document.querySelectorAll(`[data-color-target="${key}"]`).forEach((input) => {
+                    input.value = picker.value;
+                });
+            });
+        });
+        document.querySelectorAll('[data-color-target]').forEach((input) => {
+            input.addEventListener('input', () => {
+                const key = input.dataset.colorTarget;
+                document.querySelectorAll(`[data-color-sync="${key}"]`).forEach((picker) => {
+                    if (/^#([0-9a-fA-F]{6})$/.test(input.value)) picker.value = input.value;
+                });
+            });
+        });
+
         document.querySelectorAll('[data-modal-target]').forEach((button) => {
             button.addEventListener('click', () => {
                 document.getElementById(button.dataset.modalTarget)?.classList.remove('hidden');

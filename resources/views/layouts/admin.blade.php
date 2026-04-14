@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ $currentLanguage?->direction ?? 'rtl' }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ $currentLanguage?->direction ?? 'rtl' }}" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,8 +17,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --brand-a: {{ $siteSettings?->theme_primary_color ?: '#fbbf24' }};
+            --brand-b: {{ $siteSettings?->theme_secondary_color ?: '#38bdf8' }};
+        }
         body { font-family: 'Cairo', sans-serif; }
         .required-mark { margin-inline-start: .35rem; color: #f87171; font-weight: 900; }
+        a, button, input, select, textarea { transition: background-color .22s ease, color .22s ease, border-color .22s ease, box-shadow .22s ease, transform .22s ease; }
+        :where(a,button,input,select,textarea):focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-a) 28%, transparent); }
         .admin-toast-enter { animation: adminToastIn .28s ease-out; }
         .admin-toast-exit { animation: adminToastOut .2s ease-in forwards; }
         @keyframes adminToastIn {
@@ -28,6 +34,68 @@
         @keyframes adminToastOut {
             from { opacity: 1; transform: translateY(0) scale(1); }
             to { opacity: 0; transform: translateY(-12px) scale(.98); }
+        }
+
+        /* Light theme (Dark stays as-is). */
+        html[data-theme="light"] body { background-color: #f8fafc !important; color: #0f172a !important; }
+        html[data-theme="light"] .bg-slate-950 { background-color: #f8fafc !important; }
+        html[data-theme="light"] .bg-slate-900 { background-color: #ffffff !important; }
+        html[data-theme="light"] .bg-slate-900\/70 { background-color: rgba(255,255,255,.86) !important; }
+        html[data-theme="light"] .bg-slate-900\/95 { background-color: rgba(255,255,255,.92) !important; }
+        html[data-theme="light"] .text-white { color: #0f172a !important; }
+        html[data-theme="light"] .text-slate-100 { color: rgba(15,23,42,.88) !important; }
+        html[data-theme="light"] .text-slate-200 { color: rgba(15,23,42,.80) !important; }
+        html[data-theme="light"] .text-slate-300 { color: rgba(15,23,42,.72) !important; }
+        html[data-theme="light"] .text-slate-400 { color: rgba(15,23,42,.62) !important; }
+        html[data-theme="light"] .text-slate-500 { color: rgba(15,23,42,.52) !important; }
+        html[data-theme="light"] .border-white\/10 { border-color: rgba(15,23,42,.10) !important; }
+        html[data-theme="light"] .bg-white\/5 { background-color: rgba(255,255,255,.62) !important; }
+        html[data-theme="light"] .bg-white\/10 { background-color: rgba(255,255,255,.74) !important; }
+        html[data-theme="light"] .hover\:bg-white\/5:hover { background-color: rgba(15,23,42,.05) !important; }
+        html[data-theme="light"] .hover\:text-white:hover { color: #0b1220 !important; }
+
+        html[data-theme="light"] .text-amber-300 { color: rgba(146,64,14,.92) !important; }
+        html[data-theme="light"] .bg-amber-400\/20 { background-color: color-mix(in oklab, var(--brand-a) 22%, transparent) !important; }
+
+        /* Make admin sidebar + shell feel native Light. */
+        html[data-theme="light"] aside {
+            background: linear-gradient(180deg, #ffffff, #f8fafc 55%, #f1f5f9) !important;
+            border-color: rgba(15,23,42,.10) !important;
+        }
+        html[data-theme="light"] aside .text-slate-300 { color: rgba(15,23,42,.70) !important; }
+        html[data-theme="light"] aside .text-slate-400 { color: rgba(15,23,42,.58) !important; }
+        html[data-theme="light"] aside .text-slate-500 { color: rgba(15,23,42,.48) !important; }
+        html[data-theme="light"] aside a:hover { background-color: rgba(15,23,42,.05) !important; }
+        html[data-theme="light"] aside a.bg-amber-400 { box-shadow: 0 18px 40px rgba(251,191,36,.22) !important; }
+
+        html[data-theme="light"] header.bg-slate-900\/70 { background-color: rgba(255,255,255,.82) !important; }
+        html[data-theme="light"] .admin-hero {
+            background: radial-gradient(circle at 10% 20%, color-mix(in oklab, var(--brand-a) 32%, transparent), transparent 40%),
+                        radial-gradient(circle at 90% 10%, color-mix(in oklab, var(--brand-b) 18%, transparent), transparent 38%),
+                        linear-gradient(135deg, rgba(255,255,255,.92), rgba(248,250,252,.74)) !important;
+        }
+
+        html[data-theme="light"] .bg-rose-500\/20 { background-color: rgba(244,63,94,.12) !important; }
+        html[data-theme="light"] .text-rose-200 { color: rgb(190,18,60) !important; }
+        html[data-theme="light"] .border-rose-500\/30 { border-color: rgba(244,63,94,.26) !important; }
+        html[data-theme="light"] .bg-rose-500\/10 { background-color: rgba(244,63,94,.08) !important; }
+
+        /* Admin forms in Light. */
+        html[data-theme="light"] input,
+        html[data-theme="light"] select,
+        html[data-theme="light"] textarea {
+            background-color: rgba(255,255,255,.92) !important;
+            border-color: rgba(15,23,42,.12) !important;
+            color: #0f172a !important;
+            box-shadow: 0 10px 26px rgba(2, 6, 23, .06);
+        }
+        html[data-theme="light"] select { color-scheme: light; }
+        html[data-theme="light"] input:focus,
+        html[data-theme="light"] select:focus,
+        html[data-theme="light"] textarea:focus {
+            outline: none;
+            border-color: color-mix(in oklab, var(--brand-a) 70%, white) !important;
+            box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-a) 22%, transparent), 0 14px 28px rgba(2, 6, 23, .08);
         }
     </style>
 </head>
@@ -105,6 +173,17 @@
                         <h1 class="text-2xl font-black text-white">{{ $title ?? __('admin.dashboard') }}</h1>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
+                        <button type="button" class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white" data-theme-toggle aria-label="Toggle theme">
+                            <span data-theme-label>Dark</span>
+                            <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-slate-950/60" aria-hidden="true">
+                                <svg data-theme-icon-moon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-amber-200">
+                                    <path d="M21.752 15.002A9.718 9.718 0 0 1 12.01 22C6.486 22 2 17.514 2 11.99A9.718 9.718 0 0 1 8.998 2.248a.75.75 0 0 1 .87.87A8.218 8.218 0 0 0 19.88 14.132a.75.75 0 0 1 .872.87Z"/>
+                                </svg>
+                                <svg data-theme-icon-sun xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="hidden h-5 w-5 text-amber-500">
+                                    <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V3A.75.75 0 0 1 12 2.25Zm0 16.5a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75ZM4.72 4.72a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 1 1-1.06 1.06L4.72 5.78a.75.75 0 0 1 0-1.06Zm12.44 12.44a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 1 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 0-1.06ZM2.25 12a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1-.75-.75Zm16.5 0a.75.75 0 0 1 .75-.75H21a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM4.72 19.28a.75.75 0 0 1 0-1.06l1.06-1.06a.75.75 0 1 1 1.06 1.06l-1.06 1.06a.75.75 0 0 1-1.06 0Zm12.44-12.44a.75.75 0 0 1 0-1.06l1.06-1.06a.75.75 0 1 1 1.06 1.06l-1.06 1.06a.75.75 0 0 1-1.06 0ZM12 6.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5Z" clip-rule="evenodd"/>
+                                </svg>
+                            </span>
+                        </button>
                         <a href="{{ route('admin.profile.edit') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.nav_profile') }}</a>
                         <a href="{{ route('home') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.view_site') }}</a>
                     </div>
@@ -159,6 +238,31 @@
         @endif
     </div>
     <script>
+        const themeStorageKey = 'nofouth_theme';
+        const root = document.documentElement;
+        const applyTheme = (theme) => {
+            const value = theme === 'light' ? 'light' : 'dark';
+            root.setAttribute('data-theme', value);
+            document.querySelectorAll('[data-theme-label]').forEach((el) => {
+                el.textContent = value === 'light' ? 'Light' : 'Dark';
+            });
+            document.querySelectorAll('[data-theme-icon-moon]').forEach((el) => {
+                el.classList.toggle('hidden', value === 'light');
+            });
+            document.querySelectorAll('[data-theme-icon-sun]').forEach((el) => {
+                el.classList.toggle('hidden', value !== 'light');
+            });
+        };
+        applyTheme(localStorage.getItem(themeStorageKey) || 'dark');
+        document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const current = root.getAttribute('data-theme') || 'dark';
+                const next = current === 'light' ? 'dark' : 'light';
+                localStorage.setItem(themeStorageKey, next);
+                applyTheme(next);
+            });
+        });
+
         document.querySelectorAll('form [required]').forEach((field) => {
             const wrapper = field.closest('div, label');
             const label = wrapper?.querySelector('label');

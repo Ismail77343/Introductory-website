@@ -4,7 +4,7 @@
     @php($adminUser = auth()->user())
     <section class="px-4 py-8 sm:px-6 lg:px-8">
         <div class="mb-8 grid gap-4 xl:grid-cols-[1.2fr_.8fr]">
-            <div class="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(251,191,36,.22),rgba(15,23,42,.4))] p-8">
+            <div class="admin-hero rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(251,191,36,.22),rgba(15,23,42,.4))] p-8">
                 <h2 class="text-4xl font-black text-white">{{ __('admin.dashboard_heading') }}</h2>
                 <p class="mt-3 max-w-2xl text-lg leading-8 text-slate-200">{{ __('admin.dashboard_description') }}</p>
                 <div class="mt-6 flex flex-wrap gap-3">

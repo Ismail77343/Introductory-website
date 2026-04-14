@@ -6,10 +6,10 @@
         $heroMedia = $heroItem?->image_path ? asset($heroItem->image_path) : $heroItem?->image_url;
     @endphp
 
-    <section id="{{ $heroSection?->anchor ?: 'hero' }}" class="relative overflow-hidden border-b border-white/10">
-        <div class="absolute inset-0 bg-[linear-gradient(145deg,_rgba(15,23,42,.75),_rgba(30,41,59,.9))]"></div>
+    <section id="{{ $heroSection?->anchor ?: 'hero' }}" class="hero-banner relative overflow-hidden border-b border-white/10">
+        <div class="hero-banner__overlay absolute inset-0 bg-[linear-gradient(145deg,_rgba(15,23,42,.75),_rgba(30,41,59,.9))]"></div>
         @if ($heroMedia)
-            <img src="{{ $heroMedia }}" alt="{{ $heroSection->title }}" class="absolute inset-0 h-full w-full object-cover opacity-25">
+            <img src="{{ $heroMedia }}" alt="{{ $heroSection->title }}" class="hero-banner__media absolute inset-0 h-full w-full object-cover opacity-25">
         @endif
 
         <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
