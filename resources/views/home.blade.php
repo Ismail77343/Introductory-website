@@ -116,8 +116,11 @@
 
             <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
                 @foreach ($featuredProducts as $product)
+                    @php
+                        $productImage = $product->image_path ? asset($product->image_path) : $product->image_url;
+                    @endphp
                     <article class="float-card reveal overflow-hidden rounded-3xl border border-white/10 bg-slate-900/70 shadow-xl shadow-black/10">
-                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="h-56 w-full object-cover">
+                        <img src="{{ $productImage }}" alt="{{ $product->name }}" class="h-56 w-full object-cover">
                         <div class="p-6">
                             <p class="text-sm font-bold uppercase tracking-wider text-amber-300">{{ $product->translate('category') }}</p>
                             <h3 class="mt-2 text-2xl font-black text-white">{{ $product->translate('name') }}</h3>
