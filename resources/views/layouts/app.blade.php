@@ -25,11 +25,27 @@
         :root {
             --brand-a: {{ $siteSettings?->theme_primary_color ?: '#fbbf24' }};
             --brand-b: {{ $siteSettings?->theme_secondary_color ?: '#38bdf8' }};
+            --brand-contrast: #0b1220;
             --accent: var(--brand-a);
             --ink: #020617;
             --panel: rgba(15, 23, 42, .72);
             --line: rgba(255,255,255,.1);
         }
+        .bg-amber-400 { background-color: var(--brand-a) !important; color: var(--brand-contrast) !important; }
+        .hover\:bg-amber-300:hover { background-color: color-mix(in oklab, var(--brand-a) 80%, white) !important; color: var(--brand-contrast) !important; }
+        .text-amber-200 { color: color-mix(in oklab, var(--brand-a) 74%, white) !important; }
+        .text-amber-300 { color: color-mix(in oklab, var(--brand-a) 70%, white) !important; }
+        .text-amber-500 { color: color-mix(in oklab, var(--brand-a) 88%, black) !important; }
+        .bg-amber-400\/10 { background-color: color-mix(in oklab, var(--brand-a) 14%, transparent) !important; }
+        .bg-amber-400\/20 { background-color: color-mix(in oklab, var(--brand-a) 20%, transparent) !important; }
+        .border-amber-300 { border-color: color-mix(in oklab, var(--brand-a) 64%, white) !important; }
+        .border-amber-400\/25 { border-color: color-mix(in oklab, var(--brand-a) 42%, transparent) !important; }
+        .border-amber-400\/30 { border-color: color-mix(in oklab, var(--brand-a) 52%, transparent) !important; }
+        .hover\:border-amber-300:hover { border-color: color-mix(in oklab, var(--brand-a) 64%, white) !important; }
+        .hover\:text-amber-200:hover { color: color-mix(in oklab, var(--brand-a) 78%, white) !important; }
+        .hover\:text-amber-300:hover { color: color-mix(in oklab, var(--brand-a) 72%, white) !important; }
+        .shadow-amber-400\/20,
+        .shadow-amber-500\/20 { box-shadow: 0 18px 40px color-mix(in oklab, var(--brand-a) 24%, transparent) !important; }
         body { font-family: 'Cairo', sans-serif; }
         .required-mark { margin-inline-start: .35rem; color: #f87171; font-weight: 900; }
         .reveal { opacity: 0; transform: translateY(32px) scale(.98); transition: opacity .85s ease, transform .85s ease; }
@@ -118,10 +134,10 @@
         html[data-theme="light"] .hover\:bg-white\/5:hover { background-color: rgba(15,23,42,.05) !important; }
         html[data-theme="light"] .hover\:text-white:hover { color: #0b1220 !important; }
 
-        /* Make amber accents readable in Light. */
-        html[data-theme="light"] .text-amber-200 { color: rgba(146,64,14,.92) !important; }
-        html[data-theme="light"] .text-amber-300 { color: rgba(146,64,14,.92) !important; }
-        html[data-theme="light"] .text-amber-500 { color: rgba(146,64,14,.95) !important; }
+        /* Make brand accents readable in Light. */
+        html[data-theme="light"] .text-amber-200 { color: color-mix(in oklab, var(--brand-a) 82%, #111827) !important; }
+        html[data-theme="light"] .text-amber-300 { color: color-mix(in oklab, var(--brand-a) 78%, #111827) !important; }
+        html[data-theme="light"] .text-amber-500 { color: color-mix(in oklab, var(--brand-a) 88%, #111827) !important; }
         html[data-theme="light"] .bg-amber-400\/10 { background-color: color-mix(in oklab, var(--brand-a) 20%, transparent) !important; }
         html[data-theme="light"] .border-amber-400\/25 { border-color: color-mix(in oklab, var(--brand-a) 45%, transparent) !important; }
         html[data-theme="light"] .border-amber-400\/30 { border-color: color-mix(in oklab, var(--brand-a) 52%, transparent) !important; }
@@ -298,6 +314,21 @@
     <script>
         const themeStorageKey = 'nofouth_theme';
         const root = document.documentElement;
+        const normalizeHex = (value) => /^#([0-9a-fA-F]{6})$/.test(value || '') ? value : '#fbbf24';
+        const toRgb = (hex) => {
+            const clean = normalizeHex(hex).slice(1);
+            return {
+                r: parseInt(clean.slice(0, 2), 16),
+                g: parseInt(clean.slice(2, 4), 16),
+                b: parseInt(clean.slice(4, 6), 16),
+            };
+        };
+        const setBrandContrast = () => {
+            const primary = getComputedStyle(root).getPropertyValue('--brand-a').trim() || '#fbbf24';
+            const { r, g, b } = toRgb(primary);
+            const luminance = ((0.299 * r) + (0.587 * g) + (0.114 * b)) / 255;
+            root.style.setProperty('--brand-contrast', luminance > 0.63 ? '#0b1220' : '#f8fafc');
+        };
 
         const applyTheme = (theme) => {
             const value = theme === 'light' ? 'light' : 'dark';
@@ -308,6 +339,7 @@
             if (label) label.textContent = value === 'light' ? 'Light' : 'Dark';
             if (moon) moon.classList.toggle('hidden', value === 'light');
             if (sun) sun.classList.toggle('hidden', value !== 'light');
+            setBrandContrast();
         };
 
         const savedTheme = localStorage.getItem(themeStorageKey);

@@ -73,6 +73,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mt-5 grid gap-3 sm:grid-cols-3">
+                        <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white" data-theme-preset="#fbbf24|#38bdf8">Classic Gold</button>
+                        <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white" data-theme-preset="#22c55e|#06b6d4">Emerald Cyan</button>
+                        <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white" data-theme-preset="#f97316|#8b5cf6">Sunset Violet</button>
+                    </div>
+                    <div class="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+                        <p class="text-sm text-slate-300">Live Preview</p>
+                        <div class="mt-3 flex flex-wrap gap-3">
+                            <span class="rounded-xl bg-amber-400 px-4 py-2 text-sm font-bold text-slate-950">Primary Button</span>
+                            <span class="rounded-xl border border-amber-300/30 bg-amber-400/10 px-4 py-2 text-sm font-bold text-amber-300">Accent Badge</span>
+                        </div>
+                    </div>
                 </div>
 
                 <input type="hidden" name="logo_path" value="{{ $logoPath }}">
@@ -133,12 +145,35 @@
     </section>
 
     <script>
+        const root = document.documentElement;
+        const primaryInput = document.querySelector('input[name="theme_primary_color"]');
+        const secondaryInput = document.querySelector('input[name="theme_secondary_color"]');
+        const normalizeHex = (value, fallback) => /^#([0-9a-fA-F]{6})$/.test(value || '') ? value : fallback;
+        const toRgb = (hex) => {
+            const clean = hex.slice(1);
+            return {
+                r: parseInt(clean.slice(0, 2), 16),
+                g: parseInt(clean.slice(2, 4), 16),
+                b: parseInt(clean.slice(4, 6), 16),
+            };
+        };
+        const applyBrandPreview = () => {
+            const primary = normalizeHex(primaryInput?.value, '#fbbf24');
+            const secondary = normalizeHex(secondaryInput?.value, '#38bdf8');
+            root.style.setProperty('--brand-a', primary);
+            root.style.setProperty('--brand-b', secondary);
+            const { r, g, b } = toRgb(primary);
+            const luminance = ((0.299 * r) + (0.587 * g) + (0.114 * b)) / 255;
+            root.style.setProperty('--brand-contrast', luminance > 0.63 ? '#0b1220' : '#f8fafc');
+        };
+
         document.querySelectorAll('[data-color-sync]').forEach((picker) => {
             picker.addEventListener('input', () => {
                 const key = picker.dataset.colorSync;
                 document.querySelectorAll(`[data-color-target="${key}"]`).forEach((input) => {
                     input.value = picker.value;
                 });
+                applyBrandPreview();
             });
         });
         document.querySelectorAll('[data-color-target]').forEach((input) => {
@@ -147,8 +182,20 @@
                 document.querySelectorAll(`[data-color-sync="${key}"]`).forEach((picker) => {
                     if (/^#([0-9a-fA-F]{6})$/.test(input.value)) picker.value = input.value;
                 });
+                applyBrandPreview();
             });
         });
+        document.querySelectorAll('[data-theme-preset]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const [primary, secondary] = (button.dataset.themePreset || '').split('|');
+                if (primaryInput && /^#([0-9a-fA-F]{6})$/.test(primary)) primaryInput.value = primary;
+                if (secondaryInput && /^#([0-9a-fA-F]{6})$/.test(secondary)) secondaryInput.value = secondary;
+                document.querySelectorAll('[data-color-sync="theme_primary_color_picker"]').forEach((picker) => { picker.value = primaryInput.value; });
+                document.querySelectorAll('[data-color-sync="theme_secondary_color_picker"]').forEach((picker) => { picker.value = secondaryInput.value; });
+                applyBrandPreview();
+            });
+        });
+        applyBrandPreview();
 
         document.querySelectorAll('[data-modal-target]').forEach((button) => {
             button.addEventListener('click', () => {

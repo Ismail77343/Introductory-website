@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}" dir="{{ $currentLanguage?->direction ?? 'rtl' }}" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,19 @@
         :root {
             --brand-a: {{ $siteSettings?->theme_primary_color ?: '#fbbf24' }};
             --brand-b: {{ $siteSettings?->theme_secondary_color ?: '#38bdf8' }};
+            --brand-contrast: #0b1220;
         }
+        .bg-amber-400 { background-color: var(--brand-a) !important; color: var(--brand-contrast) !important; }
+        .text-amber-200 { color: color-mix(in oklab, var(--brand-a) 74%, white) !important; }
+        .text-amber-300 { color: color-mix(in oklab, var(--brand-a) 70%, white) !important; }
+        .text-amber-500 { color: color-mix(in oklab, var(--brand-a) 88%, black) !important; }
+        .bg-amber-400\/10 { background-color: color-mix(in oklab, var(--brand-a) 14%, transparent) !important; }
+        .bg-amber-400\/20 { background-color: color-mix(in oklab, var(--brand-a) 20%, transparent) !important; }
+        .border-amber-300 { border-color: color-mix(in oklab, var(--brand-a) 64%, white) !important; }
+        .border-amber-300\/30 { border-color: color-mix(in oklab, var(--brand-a) 42%, transparent) !important; }
+        .shadow-amber-500\/20,
+        .shadow-amber-900\/20,
+        .shadow-amber-400\/20 { box-shadow: 0 18px 40px color-mix(in oklab, var(--brand-a) 24%, transparent) !important; }
         body { font-family: 'Cairo', sans-serif; }
         .required-mark { margin-inline-start: .35rem; color: #f87171; font-weight: 900; }
         a, button, input, select, textarea { transition: background-color .22s ease, color .22s ease, border-color .22s ease, box-shadow .22s ease, transform .22s ease; }
@@ -44,7 +56,7 @@
         html[data-theme="light"] .bg-slate-900\/95 { background-color: rgba(255,255,255,.92) !important; }
         html[data-theme="light"] .bg-slate-950\/80 { background-color: rgba(248,250,252,.86) !important; }
         html[data-theme="light"] .bg-slate-950\/75 { background-color: rgba(248,250,252,.84) !important; }
-        /* Full-screen modal backdrops reuse bg-slate-950/75 — without this, Light scrim becomes nearly white and modals look "broken". */
+        /* Full-screen modal backdrops reuse bg-slate-950/75 â€” without this, Light scrim becomes nearly white and modals look "broken". */
         html[data-theme="light"] .fixed.inset-0.z-50.bg-slate-950\/75 {
             background-color: rgba(15, 23, 42, 0.58) !important;
             backdrop-filter: blur(8px);
@@ -67,7 +79,21 @@
         }
         html[data-theme="light"] .bg-slate-950\/70 { background-color: rgba(248,250,252,.80) !important; }
         html[data-theme="light"] .bg-slate-950\/60 { background-color: rgba(248,250,252,.78) !important; }
-        /* Forms use bg-slate-950/50 heavily — was missing, so cards stayed dark grey in Light. */
+        html[data-theme="light"] [class*="bg-slate-950/"] {
+            background-color: rgba(248,250,252,.86) !important;
+            border-color: rgba(15,23,42,.08) !important;
+        }
+        html[data-theme="light"] [class~="bg-slate-950"] {
+            background-color: #f8fafc !important;
+        }
+        html[data-theme="light"] [class*="bg-slate-900/"] {
+            background-color: rgba(255,255,255,.90) !important;
+            border-color: rgba(15,23,42,.08) !important;
+        }
+        html[data-theme="light"] [class~="bg-slate-900"] {
+            background-color: #ffffff !important;
+        }
+        /* Forms use bg-slate-950/50 heavily â€” was missing, so cards stayed dark grey in Light. */
         html[data-theme="light"] .bg-slate-950\/50 {
             background: linear-gradient(
                 135deg,
@@ -106,7 +132,7 @@
         html[data-theme="light"] .hover\:bg-white\/5:hover { background-color: rgba(15,23,42,.05) !important; }
         html[data-theme="light"] .hover\:text-white:hover { color: #0b1220 !important; }
 
-        html[data-theme="light"] .text-amber-300 { color: rgba(146,64,14,.92) !important; }
+        html[data-theme="light"] .text-amber-300 { color: color-mix(in oklab, var(--brand-a) 78%, #111827) !important; }
         html[data-theme="light"] .bg-amber-400\/20 { background-color: color-mix(in oklab, var(--brand-a) 22%, transparent) !important; }
 
         /* Make admin sidebar + shell feel native Light. */
@@ -207,7 +233,7 @@
                         @continue(! $adminUser || ! $adminUser->hasPermission($link['permission']))
                         <a href="{{ route($link['route']) }}" class="flex items-center justify-between rounded-2xl px-4 py-3 font-bold transition {{ request()->routeIs($link['route']) ? 'bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/20' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                             <span>{{ $link['label'] }}</span>
-                            <span class="text-xs opacity-70">›</span>
+                            <span class="text-xs opacity-70">&rsaquo;</span>
                         </a>
                     @endforeach
                 </nav>
@@ -305,9 +331,25 @@
     <script>
         const themeStorageKey = 'nofouth_theme';
         const root = document.documentElement;
+        const normalizeHex = (value) => /^#([0-9a-fA-F]{6})$/.test(value || '') ? value : '#fbbf24';
+        const toRgb = (hex) => {
+            const clean = normalizeHex(hex).slice(1);
+            return {
+                r: parseInt(clean.slice(0, 2), 16),
+                g: parseInt(clean.slice(2, 4), 16),
+                b: parseInt(clean.slice(4, 6), 16),
+            };
+        };
+        const setBrandContrast = () => {
+            const primary = getComputedStyle(root).getPropertyValue('--brand-a').trim() || '#fbbf24';
+            const { r, g, b } = toRgb(primary);
+            const luminance = ((0.299 * r) + (0.587 * g) + (0.114 * b)) / 255;
+            root.style.setProperty('--brand-contrast', luminance > 0.63 ? '#0b1220' : '#f8fafc');
+        };
         const applyTheme = (theme) => {
-            const value = theme === 'light' ? 'light' : 'dark';
+            const value = String(theme).toLowerCase() === 'light' ? 'light' : 'dark';
             root.setAttribute('data-theme', value);
+            document.body.setAttribute('data-theme', value);
             document.querySelectorAll('[data-theme-label]').forEach((el) => {
                 el.textContent = value === 'light' ? 'Light' : 'Dark';
             });
@@ -317,15 +359,16 @@
             document.querySelectorAll('[data-theme-icon-sun]').forEach((el) => {
                 el.classList.toggle('hidden', value !== 'light');
             });
+            setBrandContrast();
         };
-        applyTheme(localStorage.getItem(themeStorageKey) || 'dark');
-        document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
-            button.addEventListener('click', () => {
-                const current = root.getAttribute('data-theme') || 'dark';
-                const next = current === 'light' ? 'dark' : 'light';
-                localStorage.setItem(themeStorageKey, next);
-                applyTheme(next);
-            });
+        applyTheme(localStorage.getItem(themeStorageKey) || root.getAttribute('data-theme') || 'dark');
+        document.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-theme-toggle]');
+            if (!button) return;
+            const current = root.getAttribute('data-theme') || 'dark';
+            const next = current === 'light' ? 'dark' : 'light';
+            localStorage.setItem(themeStorageKey, next);
+            applyTheme(next);
         });
 
         document.querySelectorAll('form [required]').forEach((field) => {
@@ -396,3 +439,4 @@
     </script>
 </body>
 </html>
+
