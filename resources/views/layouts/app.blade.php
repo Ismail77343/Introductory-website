@@ -190,6 +190,26 @@
             0%, 100% { background-position: 0 0, 0 0, center, center; opacity: .32; }
             50% { background-position: 120px -80px, -90px 140px, center, center; opacity: .42; }
         }
+        .mobile-nav-panel {
+            transform: translateY(-12px) scale(.98);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform .24s ease, opacity .24s ease;
+        }
+        .mobile-nav-panel-open {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        @media (max-width: 767px) {
+            .hero-orb { display: none; }
+            .glass-card { border-radius: 1.4rem; }
+            .section-heading { padding-bottom: .45rem; }
+            .section-heading::after { width: 4rem; }
+            h1.text-5xl, h1.text-6xl { font-size: clamp(2rem, 8.5vw, 2.45rem) !important; line-height: 1.12 !important; }
+            h2.text-4xl { font-size: clamp(1.5rem, 7vw, 2rem) !important; line-height: 1.2 !important; }
+            p.text-xl { font-size: 1.02rem !important; line-height: 1.7 !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-white">
@@ -231,7 +251,7 @@
                 @endforeach
             </nav>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 sm:gap-3">
                 <button type="button" class="group inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-bold text-slate-300 transition hover:text-white" data-theme-toggle aria-label="Toggle theme">
                     <span class="hidden sm:inline" data-theme-label>Dark</span>
                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-slate-950/60 transition group-hover:border-amber-300/40" aria-hidden="true">
@@ -244,7 +264,7 @@
                     </span>
                 </button>
                 @if ($activeLanguages->isNotEmpty())
-                    <div class="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-2 py-2">
+                    <div class="hidden items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-2 py-2 sm:flex">
                         @foreach ($activeLanguages as $language)
                             <a href="{{ route('locale.switch', $language) }}" class="rounded-xl px-3 py-2 text-sm font-bold transition {{ app()->getLocale() === $language->code ? 'bg-amber-400 text-slate-950' : 'text-slate-300 hover:text-white' }}">
                                 {{ strtoupper($language->code) }}
@@ -252,6 +272,11 @@
                         @endforeach
                     </div>
                 @endif
+                <button type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-200 transition hover:text-white md:hidden" aria-label="Open menu" data-mobile-nav-open>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                        <path fill-rule="evenodd" d="M3 5.25A.75.75 0 0 1 3.75 4.5h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 5.25Zm0 6A.75.75 0 0 1 3.75 10.5h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 11.25Zm0 6a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
 
                 @if ($isAdminArea && auth()->check())
                     <form method="POST" action="{{ route('admin.logout') }}">
@@ -262,6 +287,36 @@
             </div>
         </div>
     </header>
+    <div class="fixed inset-0 z-40 hidden bg-slate-950/70 backdrop-blur-sm md:hidden" data-mobile-nav-backdrop></div>
+    <div class="mobile-nav-panel fixed inset-x-4 top-[5.5rem] z-50 rounded-[1.75rem] border border-white/10 bg-slate-900/95 p-4 shadow-2xl shadow-black/30 md:hidden" data-mobile-nav-panel>
+        <div class="mb-3 flex items-center justify-between">
+            <p class="text-sm font-black text-amber-300">Navigation</p>
+            <button type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300" aria-label="Close menu" data-mobile-nav-close>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                    <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 1 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+                </svg>
+            </button>
+        </div>
+        <nav class="grid gap-2">
+            @foreach ($navLinks as $link)
+                <a href="{{ route($link['route']) }}" class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold {{ request()->routeIs($link['route']) ? 'bg-amber-400 text-slate-950' : 'text-slate-200' }}" data-mobile-nav-link>
+                    {{ $link['label'] }}
+                </a>
+            @endforeach
+        </nav>
+        @if ($activeLanguages->isNotEmpty())
+            <div class="mt-4 rounded-2xl border border-white/10 bg-white/5 p-3">
+                <p class="mb-2 text-xs font-bold tracking-wide text-slate-400">Language</p>
+                <div class="flex flex-wrap gap-2">
+                    @foreach ($activeLanguages as $language)
+                        <a href="{{ route('locale.switch', $language) }}" class="rounded-xl px-3 py-2 text-sm font-bold transition {{ app()->getLocale() === $language->code ? 'bg-amber-400 text-slate-950' : 'border border-white/10 bg-slate-900 text-slate-200' }}" data-mobile-nav-link>
+                            {{ strtoupper($language->code) }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+    </div>
 
     @if (session('success'))
         <div class="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -406,6 +461,26 @@
             });
         }, { threshold: 0.4 });
         counterElements.forEach((element) => counterObserver.observe(element));
+
+        const mobileMenuPanel = document.querySelector('[data-mobile-nav-panel]');
+        const mobileMenuBackdrop = document.querySelector('[data-mobile-nav-backdrop]');
+        const openMobileMenu = () => {
+            if (!mobileMenuPanel || !mobileMenuBackdrop) return;
+            mobileMenuBackdrop.classList.remove('hidden');
+            mobileMenuPanel.classList.add('mobile-nav-panel-open');
+            document.body.style.overflow = 'hidden';
+        };
+        const closeMobileMenu = () => {
+            if (!mobileMenuPanel || !mobileMenuBackdrop) return;
+            mobileMenuBackdrop.classList.add('hidden');
+            mobileMenuPanel.classList.remove('mobile-nav-panel-open');
+            document.body.style.overflow = '';
+        };
+        document.querySelectorAll('[data-mobile-nav-open]').forEach((btn) => btn.addEventListener('click', openMobileMenu));
+        document.querySelectorAll('[data-mobile-nav-close], [data-mobile-nav-link], [data-mobile-nav-backdrop]').forEach((el) => el.addEventListener('click', closeMobileMenu));
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) closeMobileMenu();
+        });
     </script>
 </body>
 </html>
