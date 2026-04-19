@@ -47,6 +47,17 @@
             from { opacity: 1; transform: translateY(0) scale(1); }
             to { opacity: 0; transform: translateY(-12px) scale(.98); }
         }
+        .admin-mobile-nav-panel {
+            transform: translateY(-12px) scale(.98);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform .24s ease, opacity .24s ease;
+        }
+        .admin-mobile-nav-panel-open {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         /* Light theme (Dark stays as-is). */
         html[data-theme="light"] body { background-color: #f8fafc !important; color: #0f172a !important; }
@@ -188,6 +199,18 @@
             border-color: color-mix(in oklab, var(--brand-a) 70%, white) !important;
             box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-a) 22%, transparent), 0 14px 28px rgba(2, 6, 23, .08);
         }
+        @media (max-width: 1023px) {
+            .admin-hero { padding: 1.4rem !important; }
+        }
+        @media (max-width: 767px) {
+            .admin-shell > header { padding-inline: 1rem !important; }
+            .admin-shell > main section { padding-inline: 1rem !important; }
+            .admin-shell > main .rounded-\[2rem\] { border-radius: 1.35rem !important; }
+            .admin-shell > main .rounded-\[1\.75rem\] { border-radius: 1.15rem !important; }
+            .admin-shell > main .text-4xl { font-size: clamp(1.55rem, 7vw, 2rem) !important; }
+            .admin-shell > main .text-3xl { font-size: clamp(1.35rem, 6.5vw, 1.75rem) !important; }
+            .admin-shell > main .text-2xl { font-size: clamp(1.2rem, 5.8vw, 1.5rem) !important; }
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-white">
@@ -275,11 +298,40 @@
                                 </svg>
                             </span>
                         </button>
-                        <a href="{{ route('admin.profile.edit') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.nav_profile') }}</a>
-                        <a href="{{ route('home') }}" class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white">{{ __('admin.view_site') }}</a>
+                        <a href="{{ route('admin.profile.edit') }}" class="hidden rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white sm:inline-flex">{{ __('admin.nav_profile') }}</a>
+                        <a href="{{ route('home') }}" class="hidden rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold text-slate-300 transition hover:text-white sm:inline-flex">{{ __('admin.view_site') }}</a>
+                        <button type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:text-white lg:hidden" aria-label="Open menu" data-admin-mobile-nav-open>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                <path fill-rule="evenodd" d="M3 5.25A.75.75 0 0 1 3.75 4.5h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 5.25Zm0 6A.75.75 0 0 1 3.75 10.5h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 11.25Zm0 6a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </header>
+            <div class="fixed inset-0 z-40 hidden bg-slate-950/70 backdrop-blur-sm lg:hidden" data-admin-mobile-nav-backdrop></div>
+            <div class="admin-mobile-nav-panel fixed inset-x-4 top-[5.5rem] z-50 max-h-[78vh] overflow-y-auto rounded-[1.75rem] border border-white/10 bg-slate-900/95 p-4 shadow-2xl shadow-black/30 lg:hidden" data-admin-mobile-nav-panel>
+                <div class="mb-3 flex items-center justify-between">
+                    <p class="text-sm font-black text-amber-300">{{ __('admin.admin_section') }}</p>
+                    <button type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300" aria-label="Close menu" data-admin-mobile-nav-close>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 1 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                </div>
+                <nav class="space-y-2">
+                    @foreach ($adminLinks as $link)
+                        @continue(! $adminUser || ! $adminUser->hasPermission($link['permission']))
+                        <a href="{{ route($link['route']) }}" class="flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-sm font-bold {{ request()->routeIs($link['route']) ? 'bg-amber-400 text-slate-950' : 'bg-white/5 text-slate-200' }}" data-admin-mobile-nav-link>
+                            <span>{{ $link['label'] }}</span>
+                            <span class="text-xs opacity-70">&rsaquo;</span>
+                        </a>
+                    @endforeach
+                </nav>
+                <div class="mt-4 grid gap-2">
+                    <a href="{{ route('admin.profile.edit') }}" class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-slate-200" data-admin-mobile-nav-link>{{ __('admin.nav_profile') }}</a>
+                    <a href="{{ route('home') }}" class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-slate-200" data-admin-mobile-nav-link>{{ __('admin.view_site') }}</a>
+                </div>
+            </div>
 
             <main class="flex-1">
                 @yield('content')
@@ -370,12 +422,42 @@
             localStorage.setItem(themeStorageKey, next);
             applyTheme(next);
         });
+        const adminMobilePanel = document.querySelector('[data-admin-mobile-nav-panel]');
+        const adminMobileBackdrop = document.querySelector('[data-admin-mobile-nav-backdrop]');
+        const openAdminMobileMenu = () => {
+            if (!adminMobilePanel || !adminMobileBackdrop) return;
+            adminMobileBackdrop.classList.remove('hidden');
+            adminMobilePanel.classList.add('admin-mobile-nav-panel-open');
+            document.body.style.overflow = 'hidden';
+        };
+        const closeAdminMobileMenu = () => {
+            if (!adminMobilePanel || !adminMobileBackdrop) return;
+            adminMobileBackdrop.classList.add('hidden');
+            adminMobilePanel.classList.remove('admin-mobile-nav-panel-open');
+            document.body.style.overflow = '';
+        };
+        document.querySelectorAll('[data-admin-mobile-nav-open]').forEach((btn) => btn.addEventListener('click', openAdminMobileMenu));
+        document.querySelectorAll('[data-admin-mobile-nav-close], [data-admin-mobile-nav-link], [data-admin-mobile-nav-backdrop]').forEach((el) => el.addEventListener('click', closeAdminMobileMenu));
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) closeAdminMobileMenu();
+        });
 
         document.querySelectorAll('form [required]').forEach((field) => {
             const wrapper = field.closest('div, label');
             const label = wrapper?.querySelector('label');
             if (label && !label.querySelector('.required-mark')) {
                 label.insertAdjacentHTML('beforeend', '<span class="required-mark">*</span>');
+            }
+        });
+        document.querySelectorAll('table').forEach((table) => {
+            const wrap = table.parentElement;
+            if (!wrap) return;
+            if (!wrap.classList.contains('overflow-x-auto')) {
+                wrap.classList.add('overflow-x-auto');
+                wrap.style.webkitOverflowScrolling = 'touch';
+            }
+            if (!table.classList.contains('min-w-[760px]')) {
+                table.classList.add('min-w-[760px]');
             }
         });
 
